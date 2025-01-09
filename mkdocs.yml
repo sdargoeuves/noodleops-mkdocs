@@ -1,0 +1,109 @@
+site_name: NoodleOps
+site_url: https://noodleops.space/
+repo_url: https://github.com/sdargoeuves/sdargoeuves.github.io
+
+theme:
+  name: material
+  custom_dir: overrides
+  logo: assets/logo-150-round.png
+  favicon: favicon/favicon-96x96.png
+  icon:
+    repo: fontawesome/brands/github 
+  features:
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.expand
+    - navigation.path
+    # - navigation.indexes
+    - toc.follow
+    # - toc.integrate # move the toc to the left sidebar
+    - navigation.top
+
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+
+markdown_extensions:
+  # Python Markdown
+  # - abbr
+  - admonition
+  # - attr_list
+  # - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      permalink_title: Anchor link to this section for reference
+
+  # Python Markdown Extensions
+  # - pymdownx.arithmatex:
+  #     generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  # - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight
+  # - pymdownx.inlinehilite
+  # - pymdownx.keys # add icons for ctrl, alt, shift, etc.
+  # - pymdownx.mark # sort of highlighting text
+  - pymdownx.smartsymbols # smart symbols like (c) -> ©
+  - pymdownx.superfences # nested fences and other features
+  # - pymdownx.tabbed:
+  #     alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+plugins:
+  - search
+  - tags
+  - blog:
+      blog_toc: true
+  - git-revision-date-localized:
+      enable_creation_date: false
+      fallback_to_build_date: false
+      type: iso_date
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/sdargoeuves
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/seb-dargoeuves/
+  consent:
+    title: Cookie consent
+    description: >- 
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of the website and whether users
+      find what they're searching for. With your consent, you're helping us to
+      improve this page.
+    # cookies:
+    #   analytics:
+    #     name: Umami
+    #     checked: true
+
+# copyright: >
+#   &copy; 2025 <a href="https://noodleops.space">NoodleOps</a> -
+#   <a href="#__consent">Change cookie settings</a>
