@@ -26,5 +26,4 @@ Created with [mkdocs.org](https://www.mkdocs.org) and the [Mkdocs-Material](http
 
     Our analytics are non-invasive and respect your privacy.
 
-This website does not collect cookies or track individual users through their IP addresses or other personal data.
-We use Cloudflare Web Analytics and Umami.is to measure website effectiveness.
+This website does not collect cookies, we use Cloudflare Web Analytics and [Umami.is](umami.is) to measure website effectiveness.

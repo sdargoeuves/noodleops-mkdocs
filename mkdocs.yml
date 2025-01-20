@@ -97,16 +97,12 @@ extra:
   #   actions:
   #     - accept
   #   description: >-
-  #     We use Cloudflare Web Analytics to measure website effectiveness 
+  #     We use Cloudflare Web Analytics and Umami.is to measure website effectiveness 
   #     without cookies or local storage. We do not collect cookies or track 
   #     individual users through their IP addresses or other personal data.
 
   #     Our analytics are non-invasive and respect your privacy.
 
-    # cookies:
-    #   analytics:
-    #     name: Umami
-    #     checked: true
 
 # copyright: >
 #   &copy; 2025 <a href="https://noodleops.space">NoodleOps</a>
