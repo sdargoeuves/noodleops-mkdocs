@@ -82,8 +82,8 @@ plugins:
   - blog:
       blog_toc: true
   - git-revision-date-localized:
-      enable_creation_date: false
-      fallback_to_build_date: false
+      enable_creation_date: true
+      fallback_to_build_date: true
       type: iso_date
 
 extra:
