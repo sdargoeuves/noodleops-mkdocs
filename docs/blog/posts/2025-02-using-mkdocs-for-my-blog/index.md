@@ -25,4 +25,3 @@ Please, don't get me wrong, I've got absolutely nothing against Hugo, it may sui
 ## Trying Mkdocs
 
 At our company, we use Mkdocs for our documentation, and I've always liked the simplicity and the look of it. I've also found it easy to customize, and I've always been happy with the results.
-More
