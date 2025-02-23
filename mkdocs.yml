@@ -99,6 +99,9 @@ extra:
       link: https://github.com/sdargoeuves
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/seb-dargoeuves/
+    - icon: fontawesome/brands/bluesky
+      link: https://bsky.app/profile/noodleops.bsky.social
+
   # consent:
   #   title: NO Cookie consent
   #   actions:
