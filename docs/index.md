@@ -13,7 +13,7 @@ NoodleOps is a blog where I'll be sharing my thoughts, experiences, and knowledg
 
 The idea behind this blog is to create a space where I can track and document the various projects I've been working on, as well as share the lessons I've learned along the way.
 
-## About Me
+## About [Me](https://www.linkedin.com/in/seb-dargoeuves/)
 
 I'm a seasoned network engineer with a passion for technology, networking, and security. With over 15 years of experience in the IT industry, I've developed a strong background in networking, with a focus on routing, switching, security, and automation.
 
