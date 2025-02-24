@@ -96,10 +96,10 @@ plugins:
 
 extra:
   social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/sdargoeuves
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/seb-dargoeuves/
+    - icon: fontawesome/brands/github
+      link: https://github.com/sdargoeuves
     - icon: fontawesome/brands/bluesky
       link: https://bsky.app/profile/noodleops.bsky.social
 

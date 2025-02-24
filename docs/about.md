@@ -1,7 +1,11 @@
 ---
+date: 
+  created: 2025-02-20
+  updated: 2025-02-21
+draft: false
 hide:
   # - navigation
-  - toc
+  # - toc
 ---
 # NoodleOps
 
