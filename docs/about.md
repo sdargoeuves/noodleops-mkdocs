@@ -7,7 +7,7 @@ hide:
   - navigation
   - toc
 ---
-# NoodleOps
+# Noodling through Networks and Operations
 
 ![NoodleOps - logo 600 round - light mode](images/about/logo600-white-inside-transparent.png#only-light){ width="200" }
 ![NoodleOps - logo 600 round - dark mode](images/about/logo-600-round.png#only-dark){ width="200" }
@@ -17,11 +17,23 @@ hide:
 
 ## Introduction
 
-NoodleOps is a blog where I'll be sharing my thoughts, experiences, and knowledge on a wide range of topics, with a focus on networking and technology.
+`NoodleOps` is a blog where I'll be sharing my thoughts, experiences, and knowledge on a wide range of topics, with a focus on networking and technology.
 
-The idea behind this blog is to create a space where I can track and document the various projects I've been working on, as well as share the lessons I've learned along the way.
+The name `⁠NoodleOps` might raise a few eyebrows, so let me explain the inspiration behind it. Firstly, I'm a fan of the song "Noodles" by Shrezzers[^1] 🎸🎶 - it's a great tune that always gets me pumped up. Secondly, I drew inspiration from the word `⁠noodle` itself and this specific definition[^2].
 
-## About Me
+!!! note "Definition"
+    **noodle**: to play, to improvise, experiment, or think creatively
+
+    _The writers noodled for a week and came up with a better idea for the ad campaign._
+
+This definition resonates with me because it encapsulates the spirit of experimentation and creativity that I want to bring to this blog.
+
+Through `⁠NoodleOps`, I aim to create a space where I can track and document my projects, share my experiences, and reflect on the lessons I've learned along the way, so that you can benefit from them too.
+
+[^1]: Noodles by Shrezzers on [Spotify](https://open.spotify.com/track/1QM7GDKXuMkHlqesn9jIBi?si=c24987550af84f08)
+[^2]: `noodle` on [WordReference](https://www.wordreference.com/definition/noodle)
+
+## About [Me](https://www.linkedin.com/in/seb-dargoeuves/)
 
 I'm a seasoned network engineer with a passion for technology, networking, and security. With over 15 years of experience in the IT industry, I've developed a strong background in networking, with a focus on routing, switching, security, and automation.
 
@@ -35,8 +47,8 @@ You can get in touch with me on [LinkedIn](https://www.linkedin.com/in/seb-dargo
 
 ## Privacy Policy
 
-!!! info
+!!! info "Analytics"
 
-    Our analytics are non-invasive and respect your privacy.
-
-This website does not collect cookies, we use Cloudflare Web Analytics and [Umami.is](https://umami.is) to measure website effectiveness.
+    Our analytics are non-invasive and respect your privacy by not collecting cookies.
+    
+    This blog uses use Cloudflare Web Analytics and [Umami.is](https://umami.is) to measure website effectiveness.
