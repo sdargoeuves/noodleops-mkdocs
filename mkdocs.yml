@@ -83,7 +83,6 @@ markdown_extensions:
   - pymdownx.blocks.caption
 
 plugins:
-  - glightbox
   - search
   - tags
   - blog:
@@ -95,6 +94,10 @@ plugins:
       enable_creation_date: true
       fallback_to_build_date: true
       type: iso_date
+  - open-in-new-tab:
+      add_icon: true
+  - glightbox:
+      zoomable: true
 
 extra:
   social:
