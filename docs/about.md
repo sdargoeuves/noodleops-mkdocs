@@ -10,7 +10,7 @@ hide:
 # Noodling through Networks and Operations
 
 ![NoodleOps - logo 600 round - light mode](images/about/logo600-white-inside-transparent.png#only-light){ width="200" }
-![NoodleOps - logo 600 round - dark mode](images/about/logo-600-round.png#only-dark){ width="200" }
+![NoodleOps - logo 600 round - dark mode](images/about/logo600-white-rounded-square.png#only-dark){ width="200" }
 /// caption
 👋 Welcome to NoodleOps 👋
 ///

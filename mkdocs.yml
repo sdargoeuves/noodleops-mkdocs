@@ -10,7 +10,7 @@ nav:
 theme:
   name: material
   custom_dir: overrides
-  logo: assets/logo-150-round.png
+  logo: assets/logo-192.png
   favicon: favicon/favicon-96x96.png
   icon:
     repo: fontawesome/brands/github 
