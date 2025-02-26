@@ -3,10 +3,10 @@ date:
   created: 2025-02-18
   updated: 2025-02-21
 draft: false
-title: 'Choosing Mkdocs for my blog'
+title: 'Getting started with the blog'
 categories:
   - Blog
-  - Mkdocs
+  - Markdown
 tags:
   - blog
 ---
@@ -24,10 +24,30 @@ So here we are, ready to start a blog! What should I do next? I've heard a lot o
 
 It was pretty straightforward to get up and running, just follow the [Hugo Quick Start Guide](https://gohugo.io/getting-started/quick-start/) and you're good to go. It's the step after that I found harder, especially around the customization of the theme.
 
-I know there are a lot of themes available, but I failed to find one that I really like. There was always a little something bothering me or not working: Search, Table of Contents, etc. I could have decided to go with one theme that was ok, and **start**, instead of procrastinating around it, but I didn't... I wanted a solution that would suit my needs better.
+I know there are a lot of themes available, but I failed to find one that I really like. There was always a little something bothering me or not working: Search, Table of Contents, etc. I could have decided to go with one theme meeting enough of my requirements, and **start**, instead of procrastinating around it, but I didn't... I wanted a solution that would suit my needs better.
 
 Please, don't get me wrong, I've got absolutely nothing against Hugo, it may suits your needs perfectly, but it didn't suit mine.
+
+## Discovering my needs
+
+This is probably where I should have started, the problem is that I didn't know what I needed. Most of the things I wanted, I only realised after testing with Hugo and different themes by spotting what I didn't like or what was missing.
+Now that I have a better idea, here is what I wanted:
+
+- Write my posts in Markdown
+- No css, very little html
+- A clean and simple design
+- Easy to navigate
+- A search function
+- A table of contents, following the post as you scroll
+- A way to categorize and tag my posts
 
 ## Using Mkdocs
 
 At our company, we use Mkdocs for our documentation, and I like the simplicity and the look of it. When I saw that they have a [plugin for blog](https://squidfunk.github.io/mkdocs-material/plugins/blog/), it did it for me! I decided to give it a try.
+
+## 
+
+![AI Generated image - Nordic style office, with someone sitting at the desk ready to start typing](ai-nordic-office.png)
+/// caption
+This almost looks like my office... minus the wooden floor, the plants, the size of the room, the windows... Ok, it doesn't look like my office at all, but I like the style!
+///
