@@ -1,7 +1,7 @@
 ---
 date: 
-  created: 2025-02-18
-  updated: 2025-02-21
+  created: 2025-02-21
+  # updated: 2025-02-21
 draft: false
 title: 'Getting started with the blog'
 categories:
@@ -11,12 +11,9 @@ tags:
   - blog
 ---
 
-End of 2024, I decided to start a blog. This post is about the process of choosing Mkdocs for my blog...
+Near the end of 2024, I decided to start writing my own blog. This post is about the journey to get to what you are now reading...
 <!-- more -->
-
-## Introduction
-
-In the end of 2024, I decided to start this blog. I used to keep my notes in random files located in multiple directories. Let's just say, it isn't the most efficient way to keep track of what I did, especially when I needed to refer back to something I did a few months ago.
+I used to keep my notes in random files located in multiple directories. Let's just say, it isn't the most efficient way to keep track of what I did, especially when I needed to refer back to something I did a few months ago.
 
 So here we are, ready to start a blog! What should I do next? I've heard a lot of good things about Hugo, so I decided to give it a try.
 
@@ -45,7 +42,7 @@ I really feel like a lot of those are covered with Hugo, but I struggled especia
 
 ## Choosing Mkdocs
 
-At our company, we use Mkdocs for our documentation, and more precisely `Material For Mkdocs`. I like the simplicity and the look of it. When I saw that they have a [plugin for blog](https://squidfunk.github.io/mkdocs-material/plugins/blog/), it did it for me! I decided to give it a try.
+At our company, we use Mkdocs for our documentation, and more precisely `Material For Mkdocs`. I like the simplicity and the look of it. When I saw that they have a [plugin for blog](https://squidfunk.github.io/mkdocs-material/plugins/blog/), it did it for me! I decided to give it a try. And also, 22k stars on GitHub, it's a good sign, right? 😅
 
 ## Starting with Mkdocs
 
