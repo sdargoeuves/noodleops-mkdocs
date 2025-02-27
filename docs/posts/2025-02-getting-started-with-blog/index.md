@@ -31,21 +31,27 @@ Please, don't get me wrong, I've got absolutely nothing against Hugo, it may sui
 ## Discovering my needs
 
 This is probably where I should have started, the problem is that I didn't know what I needed. Most of the things I wanted, I only realised after testing with Hugo and different themes by spotting what I didn't like or what was missing.
-Now that I have a better idea, here is what I wanted:
+Now that I have a better idea, here is what I want:
 
 - Write my posts in Markdown
-- No css, very little html
+- No css required and very little html
 - A clean and simple design
 - Easy to navigate
 - A search function
 - A table of contents, following the post as you scroll
 - A way to categorize and tag my posts
 
-## Using Mkdocs
+I really feel like a lot of those are covered with Hugo, but I struggled especially with the search function and the table of contents. I also wasn't fully satisfied with the different themes I tried.
 
-At our company, we use Mkdocs for our documentation, and I like the simplicity and the look of it. When I saw that they have a [plugin for blog](https://squidfunk.github.io/mkdocs-material/plugins/blog/), it did it for me! I decided to give it a try.
+## Choosing Mkdocs
 
-## 
+At our company, we use Mkdocs for our documentation, and more precisely `Material For Mkdocs`. I like the simplicity and the look of it. When I saw that they have a [plugin for blog](https://squidfunk.github.io/mkdocs-material/plugins/blog/), it did it for me! I decided to give it a try.
+
+## Starting with Mkdocs
+
+The best way to start with Mkdocs is to follow the [Getting Started](https://squidfunk.github.io/mkdocs-material/getting-started/). It's very well written and easy to follow. I won't go into the details here, they've done a much better job than I could ever do.
+
+## AImage
 
 ![AI Generated image - Nordic style office, with someone sitting at the desk ready to start typing](ai-nordic-office.png)
 /// caption
