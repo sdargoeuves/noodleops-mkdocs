@@ -2,7 +2,7 @@
 date: 
   created: 2025-02-21
   # updated: 2025-02-27
-draft: false
+draft: true
 title: 'Getting started with the blog'
 categories:
   - Blog
