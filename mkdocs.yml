@@ -1,6 +1,7 @@
 site_name: NoodleOps
 site_url: https://noodleops.space/
 # repo_url: https://github.com/sdargoeuves/noodleops-mkdocs
+# repo_name: noodleops-mkdocs
 
 nav:
   - Blog:
@@ -15,17 +16,23 @@ theme:
   icon:
     repo: fontawesome/brands/github 
   features:
+    # - content.action.edit
+    - content.code.copy
+    - content.code.annotate
+    # - navigation.expand
+    # - navigation.footer
+    - navigation.indexes
     - navigation.instant
     - navigation.instant.prefetch
-    - navigation.tracking
+    - navigation.path
     - navigation.tabs
     # - navigation.tabs.sticky
-    # - navigation.expand
-    - navigation.path
-    - navigation.indexes
+    - navigation.top
+    - navigation.tracking
+    - search.suggest
+    # - search.highlight
     - toc.follow
     # - toc.integrate # move the toc to the left sidebar
-    - navigation.top
 
   palette:
     # Palette toggle for automatic mode
@@ -51,25 +58,23 @@ markdown_extensions:
   # - abbr
   - admonition
   - attr_list
-  # - def_list
+  # - def_list # to be TESTED
   - footnotes
   - md_in_html
-  - tables
-  - toc:
-      permalink: true
-      permalink_title: Anchor link to this section for reference
+  # - mdx_truly_sane_lists # to be TESTED
 
-  # Python Markdown Extensions
+  ### START OF Python Markdown Extensions ###
   # - pymdownx.arithmatex:
   #     generic: true
   - pymdownx.betterem:
-      smart_enable: all
+      smart_enable: all # to be TESTED
+  - pymdownx.blocks.caption
   - pymdownx.caret
-  # - pymdownx.details
+  # - pymdownx.details # to be TESTED
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
-  - pymdownx.highlight
+  - pymdownx.highlight # to be TESTED
   # - pymdownx.inlinehilite
   # - pymdownx.keys # add icons for ctrl, alt, shift, etc.
   # - pymdownx.mark # sort of highlighting text
@@ -78,27 +83,15 @@ markdown_extensions:
   # - pymdownx.tabbed:
   #     alternate_style: true
   - pymdownx.tasklist:
-      custom_checkbox: true
+      custom_checkbox: true # to be TESTED
   - pymdownx.tilde
-  - pymdownx.blocks.caption
-
-plugins:
-  - search
-  - tags
-  - social
-  - blog:
-      blog_dir: .
-      blog_toc: true
-      archive_date_format: yyyy
-      archive_name: All Posts
-  - git-revision-date-localized:
-      enable_creation_date: true
-      fallback_to_build_date: true
-      type: iso_date
-  - open-in-new-tab:
-      add_icon: true
-  - glightbox:
-      zoomable: true
+  ###END OF Python Markdown Extensions ###
+  
+  # - smarty # to be TESTED
+  - tables
+  # - toc:
+      # permalink: true
+      # permalink_title: Anchor link to this section for reference
 
 extra:
   social:
@@ -108,18 +101,31 @@ extra:
       link: https://github.com/sdargoeuves
     - icon: fontawesome/brands/bluesky
       link: https://bsky.app/profile/noodleops.bsky.social
-
   # consent:
-  #   title: NO Cookie consent
-  #   actions:
-  #     - accept
+  #   title: Cookie consent
   #   description: >-
-  #     We use Cloudflare Web Analytics and Umami.is to measure website effectiveness 
-  #     without cookies or local storage. We do not collect cookies or track 
-  #     individual users through their IP addresses or other personal data.
+  #     We use cookies to recognize your repeated visits and preferences, as well
+  #     as to measure the effectiveness of our documentation and whether users
+  #     find what they're searching for. With your consent, you're helping us to
+  #     make our documentation better.
 
-  #     Our analytics are non-invasive and respect your privacy.
-
+plugins:
+  - blog:
+      blog_dir: .
+      blog_toc: true
+      archive_date_format: yyyy
+      archive_name: All Posts
+  - git-revision-date-localized:
+      strict: false
+      enable_creation_date: false
+      type: iso_date
+  - glightbox:
+      zoomable: true
+  - open-in-new-tab:
+      add_icon: true
+  - search
+  - social
+  - tags
 
 # copyright: >
 #   &copy; 2025 <a href="https://noodleops.space">NoodleOps</a>

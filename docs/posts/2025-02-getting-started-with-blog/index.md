@@ -1,7 +1,7 @@
 ---
 date: 
   created: 2025-02-21
-  # updated: 2025-02-21
+  # updated: 2025-02-27
 draft: false
 title: 'Getting started with the blog'
 categories:
