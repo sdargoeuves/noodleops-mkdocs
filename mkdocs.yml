@@ -19,12 +19,13 @@ theme:
     # - content.action.edit
     - content.code.copy
     - content.code.annotate
-    # - navigation.expand
-    # - navigation.footer
+    # - navigation.expand # not needed if using navigation.sections
+    - navigation.footer
     - navigation.indexes
     - navigation.instant
     - navigation.instant.prefetch
     - navigation.path
+    - navigation.sections
     - navigation.tabs
     # - navigation.tabs.sticky
     - navigation.top
@@ -58,10 +59,10 @@ markdown_extensions:
   # - abbr
   - admonition
   - attr_list
-  # - def_list # to be TESTED
+  - def_list
   - footnotes
   - md_in_html
-  # - mdx_truly_sane_lists # to be TESTED
+  - mdx_truly_sane_lists # better identation for lists
 
   ### START OF Python Markdown Extensions ###
   # - pymdownx.arithmatex:
@@ -83,13 +84,13 @@ markdown_extensions:
   # - pymdownx.tabbed:
   #     alternate_style: true
   - pymdownx.tasklist:
-      custom_checkbox: true # to be TESTED
+      custom_checkbox: true # prettier checkboxes
   - pymdownx.tilde
   ###END OF Python Markdown Extensions ###
   
-  # - smarty # to be TESTED
+  - smarty # improves quotes, ..., and other typographic elements
   - tables
-  # - toc:
+  # - toc: # not needed, it will just add the anchor links to the TOC
       # permalink: true
       # permalink_title: Anchor link to this section for reference
 
