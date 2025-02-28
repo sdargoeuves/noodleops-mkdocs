@@ -111,10 +111,11 @@ extra:
 
 plugins:
   - blog:
-      blog_dir: .
-      blog_toc: true
       archive_date_format: yyyy
       archive_name: All Posts
+      blog_dir: .
+      blog_toc: true
+      draft: true
   - git-revision-date-localized:
       strict: false
       enable_creation_date: false
