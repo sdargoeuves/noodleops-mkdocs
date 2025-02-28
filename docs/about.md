@@ -19,7 +19,7 @@ hide:
 
 `NoodleOps` is a blog where I'll be sharing my thoughts, experiences, and knowledge on a wide range of topics, with a focus on networking and technology.
 
-The name `⁠NoodleOps` might raise a few eyebrows, so let me explain the inspiration behind it. Firstly, I'm a fan of the song "Noodles" by Shrezzers[^1] 🎸🎶 - it's a great tune that always gets me pumped up. Secondly, I drew inspiration from the word `⁠noodle` itself and this specific definition[^2].
+The name `⁠NoodleOps` might raise a few eyebrows, so let me explain the inspiration behind it. Firstly, I'm a fan of the song "Noodles" by Shrezzers[^1] 🎸🎶 - it's a great tune that always gets me pumped up. Secondly, I drew inspiration from the word `⁠noodle` itself and this specific definition[^2]:
 
 !!! note "Definition"
     **noodle**: to play, to improvise, experiment, or think creatively
