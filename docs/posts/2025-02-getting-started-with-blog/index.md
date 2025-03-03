@@ -24,9 +24,9 @@ I know there are a lot of themes available, but I just couldn't find one that re
 
 And please, don't get me wrong, I have absolutely nothing against Hugo! It might be the perfect solution for many, but it just didn't quite click for *my* needs.
 
-## Choosing Mkdocs
+## Choosing MkDocs
 
-At our company, we use Mkdocs for our documentation, and more precisely `Material For Mkdocs`. I like the simplicity, the look and the fact it's written in python *-- not that I am planning on diving into the code.*
+At our company, we use MkDocs for our documentation, and more precisely `Material for MkDocs`. I like the simplicity, the look and the fact it's written in python *-- not that I am planning to dive into the code.*
 
 When I saw that they have a [plugin for blog](https://squidfunk.github.io/mkdocs-material/plugins/blog/), it did it for me! I decided to give it a try. And also, 22k stars on GitHub, it's a good sign, right? 😅
 
@@ -43,13 +43,13 @@ Now that I had a clearer picture, here's what was on my wishlist:
 - [x] A search function
 - [x] A table of contents, that follows you as you scroll
 
-I really feel like a lot of those are covered with Hugo, but I struggled especially with the search function and the table of contents. I wasn't fully satisfied with the different themes I tried. With Material for Mkdocs, all of these points are covered right out of the box, which was a huge relief.
+I really feel like a lot of those are covered with Hugo, but I struggled especially with the search function and the table of contents. I wasn't fully satisfied with the different themes I tried. With Material for MkDocs, all of these points are covered right out of the box, which was a huge relief.
 
-## Starting with Mkdocs
+## Starting with Material for MkDocs
 
-The best way to start with Mkdocs is to follow the [Getting Started](https://squidfunk.github.io/mkdocs-material/getting-started/). It's very well written and easy to follow. I won't go into the details here, they've done a much better job than I could ever do.
+The best way to start with Material for MkDocs is to follow the [Getting Started](https://squidfunk.github.io/mkdocs-material/getting-started/). It's very well written and easy to follow. I won't go into the details here, they've done a much better job than I could ever do.
 
-## My Mkdocs setup
+## My MkDocs setup
 
 To set up this blog, I wanted a pretty simple and standard workflow: edit markdown files, use Git to push those file somewhere and update the blog accordingly.
 
@@ -60,8 +60,8 @@ The source code is hosted on [GitHub](https://github.com/sdargoeuves/noodleops-m
 The overall look of this blog was influenced by existing resources:
 
 - **Inspirational Tech Writing Blog:** [Deborah Writes](https://deborahwrites.com/blog/)
-- **Material for Mkdocs Blog:** [Material for Mkdocs Blog](https://squidfunk.github.io/mkdocs-material/blog/)
-- **Additional Mkdocs Examples:** [Andre_601](https://andre601.ch/blog/), [Tim Vink](https://timvink.nl/blog/), [A code to remember](https://copdips.com/)...
+- **Material for MkDocs Blog:** [Material for MkDocs Blog](https://squidfunk.github.io/mkdocs-material/blog/)
+- **Additional MkDocs Examples:** [Andre_601](https://andre601.ch/blog/), [Tim Vink](https://timvink.nl/blog/), [A code to remember](https://copdips.com/)...
 
 ## Conclusion
 
