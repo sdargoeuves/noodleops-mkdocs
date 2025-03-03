@@ -1,15 +1,12 @@
 ---
-date: 
-  created: 2025-02-21
-  # updated: 2025-02-27
-draft: true
-title: 'Getting started with the blog'
 authors:
   - sdargoeuves
 categories:
-  - Blogging
-# tags:
-#   - blog
+  - Writing
+date:
+  created: 2025-02-21
+draft: false
+title: 'Getting started with the blog'
 ---
 
 Late in 2024, I decided to start writing my own blog. This post is about the journey to get to what you are now reading...
