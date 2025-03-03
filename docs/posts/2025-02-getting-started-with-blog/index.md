@@ -1,11 +1,14 @@
 ---
 authors:
   - sdargoeuves
-categories:
-  - Writing
+# categories:
+#   - Writing
 date:
   created: 2025-02-21
+  updated: 2025-03-03
 draft: false
+tags:
+  - blog
 title: 'Getting started with the blog'
 ---
 
@@ -53,7 +56,7 @@ The best way to start with Material for MkDocs is to follow the [Getting Started
 
 To set up this blog, I wanted a pretty simple and standard workflow: edit markdown files, use Git to push those file somewhere and update the blog accordingly.
 
-I initially considered GitHub Pages, but switched to [Cloudflare Pages](https://www.cloudflare.com/pages/) after hearing about it from Ivan Pepelnjak (on his [blog](https://blog.ipspace.net/2024/07/blog-cloudflare/)) and discovering Deborah Writes' excellent deployment guide: [Deploy and Host MkDocs with Cloudflare Pages guide](https://deborahwrites.com/guides/deploy-host-mkdocs/deploy-mkdocs-material-cloudflare/)
+I initially considered GitHub Pages, but switched to [Cloudflare Pages](https://www.cloudflare.com/pages/) after hearing about it from Ivan Pepelnjak on a podcast (not sure which one) but also on his [blog](https://blog.ipspace.net/2024/07/blog-cloudflare/)) and discovering Deborah Writes' excellent deployment guide: [Deploy and Host MkDocs with Cloudflare Pages guide](https://deborahwrites.com/guides/deploy-host-mkdocs/deploy-mkdocs-material-cloudflare/)
 
 The source code is hosted on [GitHub](https://github.com/sdargoeuves/noodleops-mkdocs), and updates are automatically deployed to Cloudflare Pages when I update the `main` branch.
 

@@ -1,11 +1,14 @@
 site_name: NoodleOps
-site_url: https://noodleops.space/
+site_url: https://noodleops.com/
+site_author: sdargoeuves
+site_description: Noodling through Network and Operations
 # repo_url: https://github.com/sdargoeuves/noodleops-mkdocs
 # repo_name: noodleops-mkdocs
 
 nav:
   - Blog:
      - index.md
+     - tags.md
   - About: about.md
 
 theme:
@@ -94,34 +97,29 @@ markdown_extensions:
       # permalink: true
       # permalink_title: Anchor link to this section for reference
 
-extra:
-  social:
-    - icon: fontawesome/brands/linkedin
-      link: https://www.linkedin.com/in/seb-dargoeuves/
-    - icon: fontawesome/brands/github
-      link: https://github.com/sdargoeuves
-    - icon: fontawesome/brands/bluesky
-      link: https://bsky.app/profile/noodleops.bsky.social
-  # consent:
-  #   title: Cookie consent
-  #   description: >-
-  #     We use cookies to recognize your repeated visits and preferences, as well
-  #     as to measure the effectiveness of our documentation and whether users
-  #     find what they're searching for. With your consent, you're helping us to
-  #     make our documentation better.
 
 plugins:
   - blog:
+      archive: true
       archive_date_format: yyyy
       archive_name: All Posts
+      authors: true
       blog_dir: .
       blog_toc: true
       draft: true
-      authors: true
-  - git-revision-date-localized:
-      strict: false
-      enable_creation_date: false
-      type: iso_date
+      draft_if_future_date: true
+      # pagination_format: "$link_first $link_previous ~2~ $link_next $link_last"
+      post_date_format: 'dd MMMM yyyy'
+      post_date_format: 'yyyy-MM-dd'
+      post_url_date_format: yyyy-MM
+  # - git-revision-date-localized:
+  #     strict: false
+  #     enable_creation_date: true
+  #     type: iso_date
+  #     timezone: Europe/London
+  #     locale: en
+  #     exclude:
+  #       - about.md
   - glightbox:
       zoomable: true
   - open-in-new-tab:
@@ -131,4 +129,4 @@ plugins:
   - tags
 
 # copyright: >
-#   &copy; 2025 <a href="https://noodleops.space">NoodleOps</a>
+#   &copy; 2025 <a href="https://noodleops.com">NoodleOps</a>
