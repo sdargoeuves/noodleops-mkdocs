@@ -117,6 +117,7 @@ plugins:
       blog_dir: .
       blog_toc: true
       draft: true
+      authors: true
   - git-revision-date-localized:
       strict: false
       enable_creation_date: false
