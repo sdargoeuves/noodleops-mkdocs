@@ -65,7 +65,7 @@ markdown_extensions:
   - def_list
   - footnotes
   - md_in_html
-  - mdx_truly_sane_lists # better identation for lists
+  - mdx_truly_sane_lists # better indentation for lists
 
   ### START OF Python Markdown Extensions ###
   # - pymdownx.arithmatex:
@@ -109,8 +109,8 @@ plugins:
       draft: true
       draft_if_future_date: true
       # pagination_format: "$link_first $link_previous ~2~ $link_next $link_last"
-      post_date_format: 'dd MMMM yyyy'
-      post_date_format: 'yyyy-MM-dd'
+      # post_date_format: 'dd MMMM yyyy' # 03 March 2025
+      post_date_format: 'yyyy-MM-dd' # 2025-03-03
       post_url_date_format: yyyy-MM
   # - git-revision-date-localized:
   #     strict: false

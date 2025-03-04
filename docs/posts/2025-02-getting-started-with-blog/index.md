@@ -12,7 +12,7 @@ tags:
 title: 'Getting started with the blog'
 ---
 
-Late in 2024, I decided to start writing my own blog. This post is about the journey to get to what you are now reading...
+Late in 2024, I  decided to start writing my own blog. This post is about the journey to get to what you are now reading...
 <!-- more -->
 
 I used to keep my notes scattered across random files in multiple directories. Let's just say, it isn't the most efficient way to keep track of what I did, especially when I needed to refer back to something I did a few months ago.
@@ -37,7 +37,7 @@ When I saw that they have a [plugin for blog](https://squidfunk.github.io/mkdocs
 
 Looking back, this is probably where I should have started – figuring out my needs first. But the problem was, I didn't really know what I needed! It was only when I started playing around with Hugo and different themes that things became clearer, and I began to figure out what I didn't like or what was missing.
 
-Now that I had a clearer picture, here's what was on my wishlist:
+Now that I had a clearer picture, here's what was on my wish list:
 
 - [x] Write my posts in Markdown
 - [x] No CSS required and very little HTML
@@ -46,7 +46,7 @@ Now that I had a clearer picture, here's what was on my wishlist:
 - [x] A search function
 - [x] A table of contents, that follows you as you scroll
 
-I really feel like a lot of those are covered with Hugo, but I struggled especially with the search function and the table of contents. I wasn't fully satisfied with the different themes I tried. With Material for MkDocs, all of these points are covered right out of the box, which was a huge relief.
+I really feel like Hugo supports a lot of those features, but I struggled especially with the search function and the table of contents. I wasn't fully satisfied with the different themes I tried. Thankfully, Material for MkDocs provides all of these features out of the box, which was a huge relief.
 
 ## Starting with Material for MkDocs
 
@@ -60,7 +60,7 @@ I initially considered GitHub Pages, but switched to [Cloudflare Pages](https://
 
 The source code is hosted on [GitHub](https://github.com/sdargoeuves/noodleops-mkdocs), and updates are automatically deployed to Cloudflare Pages when I update the `main` branch.
 
-The overall look of this blog was influenced by existing resources:
+I took inspiration for the overall look of this blog from existing resources::
 
 - **Inspirational Tech Writing Blog:** [Deborah Writes](https://deborahwrites.com/blog/)
 - **Material for MkDocs Blog:** [Material for MkDocs Blog](https://squidfunk.github.io/mkdocs-material/blog/)
