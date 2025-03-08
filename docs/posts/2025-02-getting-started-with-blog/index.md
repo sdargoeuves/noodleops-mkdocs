@@ -68,7 +68,7 @@ I took inspiration for the overall look of this blog from existing resources::
 
 ## Conclusion
 
-That's it! The foundations are finally in place, or at least, at a point I'm happy with! No more excuses, no more distractions. I can finally stop tinkering with blog setup and actually start writing... now, where to begin?
+That's it! The foundations are finally in place, or at least, at a point I'm happy with! No more excuses, no more distractions. I can finally stop tinkering with blog setup and actually start writing... now, where do I begin?
 
 ![AI Generated image - Nordic style, large office, plants, large windows, with someone sitting at the desk ready to start typing](ai-nordic-office.png)
 /// caption
