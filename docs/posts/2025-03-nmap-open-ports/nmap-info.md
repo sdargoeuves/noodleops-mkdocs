@@ -1,3 +1,17 @@
+---
+authors:
+  - sdargoeuves
+# categories:
+#   - Writing
+date:
+  created: 2025-03-16
+  # updated: 2025-03-03
+draft: true
+tags:
+  - python
+  - security
+---
+
 # Security Justification for Nmap Scanning Public IPs on Port 22
 
 ## Introduction
