@@ -23,7 +23,7 @@ Need a Debian VM running locally? Here's how you can create one on your server, 
 
 ## Introduction
 
-Let's face it, spinning up a VM in the cloud for every little test can be overkill, not to mention potentially costly. Sometimes, you just need a VM right here, right now, running locally on your machine or a local server.
+Let's face it, spinning up a VM in the cloud for some specific tasks can be overkill, not to mention potentially costly. Sometimes, you just need a VM right here, right now, running locally on your machine or a local server.
 
 Usually, if I need a linux VM to test something locally, I would use [multipass](https://canonical.com/multipass), which allows you to quickly create an Ubuntu VM. I should write a post about multipass; it's a very useful tool for creating local Ubuntu VMs. Unfortunately, multipass doesn't support Debian 😞, only Ubuntu I believe.
 
