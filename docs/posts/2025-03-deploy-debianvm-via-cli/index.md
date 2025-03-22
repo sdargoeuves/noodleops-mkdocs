@@ -29,7 +29,9 @@ Normally, if I need a linux VM to test something locally, I would use multipass,
 
 But this time, I needed a Debian VM and I wanted it running on my local server. And by "server," I'm talking about a not-too-old laptop, with 32GB of RAM running Ubuntu. The goal was CLI all the way – no GUI needed, for maximum automation potential.
 
-If you just want the commands to run, go directly to the [Summary](#summary)
+## TL;DR
+
+Just need the commands to quickly spin that Debian VM on your local server? Head directly to the [**Summary**](#summary) section.
 
 ## Prerequisites
 
