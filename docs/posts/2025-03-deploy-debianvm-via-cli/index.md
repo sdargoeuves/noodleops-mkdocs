@@ -16,10 +16,10 @@ Need a Debian VM running locally? Here's how you can create one on your server, 
 
 <!-- more -->
 
-![AI generated image - An illustration of a laptop displaying code in a command line interface, set on a wooden desk surrounded by office supplies. In the background, server racks and various geometric shapes represent a tech environment focused on creating a Debian virtual machine.](DebianVMviaCLI.png)
-<!-- /// caption
-Setting up a Debian virtual machine on a local server via command line.
-/// -->
+![AI generated image - An illustration of a laptop displaying code in a command line interface, set on a wooden desk surrounded by office supplies. In the background, server racks and various geometric shapes represent a tech environment focused on creating a Debian virtual machine.](DebianVMviaCLI.png){ width=600 }
+/// caption
+<!-- keep empty to center the image, without a caption -->
+///
 
 ## Introduction
 

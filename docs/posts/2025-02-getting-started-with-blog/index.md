@@ -70,7 +70,7 @@ I took inspiration for the overall look of this blog from existing resources::
 
 That's it! The foundations are finally in place, or at least, at a point I'm happy with! No more excuses, no more distractions. I can finally stop tinkering with blog setup and actually start writing... now, where do I begin?
 
-![AI Generated image - Nordic style, large office, plants, large windows, with someone sitting at the desk ready to start typing](ai-nordic-office.png)
+![AI Generated image - Nordic style, large office, plants, large windows, with someone sitting at the desk ready to start typing](ai-nordic-office.png){ width="600" }
 /// caption
 This image almost looks like my office... minus the wooden floor, the plants, the size of the room, the windows, the furniture... fair enough, it doesn't look like my office at all!
 ///
