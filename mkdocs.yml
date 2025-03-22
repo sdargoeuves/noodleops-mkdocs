@@ -97,7 +97,8 @@ markdown_extensions:
       # permalink: true
       # permalink_title: Anchor link to this section for reference
 
-
+extra_css:
+  - assets/css/custom.css
 plugins:
   - blog:
       archive: true
