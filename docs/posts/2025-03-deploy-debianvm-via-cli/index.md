@@ -25,9 +25,9 @@ Setting up a Debian virtual machine on a local server via command line.
 
 Let's face it, spinning up a VM in the cloud for every little test can be overkill, not to mention potentially costly. Sometimes, you just need a VM right here, right now, running locally on your machine or a local server.
 
-Normally, if I need a linux VM to test something locally, I would use multipass, which allows you to quickly create an Ubuntu VM. I should write a post about Multipass; it's a very useful tool for quickly creating local Ubuntu VMs. Unfortunately, Multipass doesn't support Debian 😞, only Ubuntu I believe.
+Usually, if I need a linux VM to test something locally, I would use [multipass](https://canonical.com/multipass), which allows you to quickly create an Ubuntu VM. I should write a post about multipass; it's a very useful tool for creating local Ubuntu VMs. Unfortunately, multipass doesn't support Debian 😞, only Ubuntu I believe.
 
-But this time, I needed a Debian VM and I wanted it running on my local server. And by "server," I'm talking about a not-too-old laptop, with 32GB of RAM running Ubuntu. The goal was CLI all the way – no GUI needed, for maximum automation potential.
+For a specific use case, I needed a Debian VM and I wanted to run it on my local server. And by "server," I'm talking about a not-too-old laptop, with 32GB of RAM running Ubuntu. The goal was CLI all the way – no GUI needed, for maximum automation potential.
 
 ## TL;DR
 
