@@ -16,6 +16,11 @@ title: 'Unlocking Network Security: Use nmap to scan public IPs for open SSH por
 "Can your product help with scanning public IP to check for open SSH ports?" - a question I received from a customer. The answer is yes, and I will show you how we used nmap to scan for open ports.
 <!-- more -->
 
+![AI generated image - An illustration depicting a modern cybersecurity setup. A large computer monitor displays nmap command outputs and security metrics, including open SSH ports, alongside a laptop showing code. The background features a digital network grid and icons representing security, such as padlocks. The overall theme emphasizes network security and technology.](network-security-nmap.png){ width=600 }
+/// caption
+<!-- keep empty to center the image, without a caption -->
+///
+
 This post discusses how to use nmap to scan for open ports on public IPs. It covers the use case, the steps to identify public IPs, and the Python code to scan the IPs using nmap.
 
 Before diving into the details, let's understand the use case behind the question above.
@@ -25,7 +30,7 @@ Before diving into the details, let's understand the use case behind the questio
 
 ## TL;DR
 
-Need to check public IPs for open SSH ports for security compliance? This post shows you how to identify those IPs – either pulling them from a tool like IP Fabric or using a CSV file containing the list from your Source of Truth. Then, how to scan them using ⁠nmap via Python (⁠python3-nmap) and report the findings. Find the complete code and instructions on GitHub: [ipf-nmap-ip](https://www.github.com/sebastien-dargoeuves-ipf/ipf-nmap-ip).
+Need to check public IPs for open SSH ports for security compliance? This post shows you how to identify those IPs – either pulling them from a tool like IP Fabric or using a CSV file containing the list from your Source of Truth. Then, how to scan them using ⁠nmap via Python (⁠python3-nmap) and report the findings. Find the complete code and instructions on GitHub: [ipf-nmap-ip](https://www.github.com/sebastien-dargoeuves-ipf/ipf-nmap-ip)
 
 ## The Use Case
 
