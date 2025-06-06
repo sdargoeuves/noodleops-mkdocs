@@ -5,7 +5,7 @@ categories:
   - netlab
 date:
   created: 2025-06-06
-  # updated: 2025-
+  # updated: 2025-xx-xx
 draft: false
 tags:
   - netlab
@@ -30,7 +30,7 @@ Want to test FortiGate in your virtual lab environment, and want to do **without
 
 My goal here is to create an updated guide to deploy a FortiGate in a virtual lab environment, as the licensing has changed from the version `7.2.0`. It's mentioned in the [containerlab instructions](https://containerlab.dev/manual/kinds/fortinet_fortigate/#fortinet-fortigate). You may still be able to obtain a version `< 7.2.0` of the FortiGate, with a 15 day license, but I couldn't find it on the Fortinet support portal anymore...
 
-In this post, I'll provide a working solution using a more recent version of the FortiGate VM, specifically `7.4.8`, to help you get started with setting up your virtual lab environment.
+In this post, I'll be using the version `7.4.8`, to help you get started with setting up your virtual lab environment.
 
 !!! tip "Licensing"
     Before you start, please note that the free license provided by Fortinet is great for experiencing their FortiGate, but it has some restrictions, which could affect what you want to achieve.
