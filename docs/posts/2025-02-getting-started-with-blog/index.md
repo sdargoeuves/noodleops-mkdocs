@@ -5,7 +5,7 @@ authors:
 #   - Writing
 date:
   created: 2025-02-21
-  updated: 2025-03-03
+  updated: 2025-06-03
 draft: false
 tags:
   - blog
@@ -60,7 +60,7 @@ I initially considered GitHub Pages, but switched to [Cloudflare Pages](https://
 
 The source code is hosted on [GitHub](https://github.com/sdargoeuves/noodleops-mkdocs), and updates are automatically deployed to Cloudflare Pages when I update the `main` branch.
 
-I took inspiration for the overall look of this blog from existing resources::
+I took inspiration for the overall look of this blog from existing resources:
 
 - **Inspirational Tech Writing Blog:** [Deborah Writes](https://deborahwrites.com/blog/)
 - **Material for MkDocs Blog:** [Material for MkDocs Blog](https://squidfunk.github.io/mkdocs-material/blog/)
