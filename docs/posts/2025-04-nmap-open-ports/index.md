@@ -5,7 +5,7 @@ authors:
 #   - Writing
 date:
   created: 2025-04-26
-  # updated: 2025-03-03
+  updated: 2025-05-06
 draft: false
 tags:
   - python
@@ -13,7 +13,9 @@ tags:
 title: 'Unlocking Network Security: Use nmap to scan public IPs for open SSH ports'
 ---
 
-"Can your product help with scanning public IP to check for open SSH ports?" - a question I received from a customer. The answer is yes, and I will show you how we used nmap to scan for open ports.
+> Can your product help with scanning public IP to check for open SSH ports?
+
+This is a great question I received from a customer. Let's look how we used nmap to scan for open ports, once we identified the public IPs of their infrastructure.
 <!-- more -->
 
 ![AI generated image - An illustration depicting a modern cybersecurity setup. A large computer monitor displays nmap command outputs and security metrics, including open SSH ports, alongside a laptop showing code. The background features a digital network grid and icons representing security, such as padlocks. The overall theme emphasizes network security and technology.](network-security-nmap.png){ width=600 }
