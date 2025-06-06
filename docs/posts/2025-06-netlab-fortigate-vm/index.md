@@ -25,39 +25,70 @@ Want to test FortiGate in your virtual lab environment, and want to do **without
 
 ## Introduction
 
-!!! info "Disclaimer 1"
-    Many steps described here are based on the great work of [Pete Crocker](https://www.linkedin.com/in/petercrocker/) in his blog post [Creating a Fortinet VM for Libvirt/vagrant](https://blog.petecrocker.com/post/fortinet_vagrant_libvirt/).
+!!! info "Disclaimer"
+    Many steps described in this blog post are based on the great work of [Pete Crocker](https://www.linkedin.com/in/petercrocker/) in his post: [Creating a Fortinet VM for Libvirt/vagrant](https://blog.petecrocker.com/post/fortinet_vagrant_libvirt/).
 
-With this in mind, my goal here is to refresh those steps, as the FortiGate's licensing has changed significantly since the original post was written. You may still be able to obtain a version `< 7.2.0` of the FortiGate, but I couldn't find it on the Fortinet support portal anymore... From what I've read on the [containerlab instructions](https://containerlab.dev/manual/kinds/fortinet_fortigate/#fortinet-fortigate) for Fortinet, the change of licensing happened starting with `7.2`.
+My goal here is to create an updated guide to deploy a FortiGate in a virtual lab environment, as the licensing has changed from the version `7.2.0`. It's mentioned in the [containerlab instructions](https://containerlab.dev/manual/kinds/fortinet_fortigate/#fortinet-fortigate). You may still be able to obtain a version `< 7.2.0` of the FortiGate, with a 15 day license, but I couldn't find it on the Fortinet support portal anymore...
 
 In this post, I'll provide a working solution using a more recent version of the FortiGate VM, specifically `7.4.8`, to help you get started with setting up your virtual lab environment.
 
-!!! note "Licensing"
-    Before you start, please note that the free license provided by Fortinet is great for experiencing their FortiGate, but it has some restrictions, which may affect what you are trying to achieve. You can find the documentation about the [FortiGate VM free license](https://docs.fortinet.com/document/fortigate/7.4.8/administration-guide/441460) on the Fortinet website.
+!!! tip "Licensing"
+    Before you start, please note that the free license provided by Fortinet is great for experiencing their FortiGate, but it has some restrictions, which could affect what you want to achieve.
+
+    You can find the documentation about the [FortiGate VM free license](https://docs.fortinet.com/document/fortigate/7.4.8/administration-guide/441460) on the Fortinet website.
 
 ## Prerequisites
 
 To follow this guide, we will assume:
 
-- you have an environment with KVM, Vagrant and the Vagrant plugin `vagrant-libvirt` already installed. You can check steps 1 and 2 of this [post](https://computingforgeeks.com/using-vagrant-with-libvirt-on-linux/) to prepare your environment.
-- you have an account on the [Fortinet support portal](https://support.fortinet.com/) to download the FortiGate VM image, or an alternative way to obtain the `fortios.qcow2` image.
-- you have a working installation of netlab. Check their [installation guide](https://netlab.tools/install/).
+!!! note "Environment"
+    You have an environment with KVM, Vagrant and the Vagrant plugin `vagrant-libvirt` already installed. You can check steps 1 and 2 of this [post](https://computingforgeeks.com/using-vagrant-with-libvirt-on-linux/) to prepare your environment.
 
-## TL;DR
+!!! note "FortiGate VM image"
+    You have an account on the [Fortinet support portal](https://support.fortinet.com/) to download the FortiGate VM image, or an alternative way to obtain the `fortios.qcow2` image.
 
-Just a few steps...
+!!! note "netlab"
+    You have a working installation of netlab, if not, check their [installation guide](https://netlab.tools/install/).
 
-1. Download the FortiGate VM qcow2 image from the Fortinet support portal -> KVM option
-2. Use virt-install to create a VM with the qcow2 image
-3. Configure the box with some basic settings:
-    1. Configure default via CLI: admin password, DHCP, DNS
-    2. Activate the permanent evaluation license. [Limitations and instructions](https://docs.fortinet.com/document/fortigate/7.4.8/administration-guide/441460)
-4. Keep note of the UUID of the VM, as it will be used in the netlab configuration
-5. Create the box
-6. Optional: Move the box file to a different location
-7. Add the box to Vagrant
-8. Create a lab with this FortiGate device
-9. Make sure you are using a recent version of the Ansible Galaxy collection for Fortinet.
+## Overview
+
+There are only a *few* steps to follow in order to get the FortiGate VM ready for use in netlab. We will deep dive into each step, but here is a quick overview of what we will do:
+
+- [Image preparation](#image-preparation)
+
+    1. Download the FortiGate VM image from the Fortinet support portal, selecting the KVM option
+
+    2. Create the VM with `virt-install`
+
+    3. Configure the FortiGate VM with some basic settings: admin password, DHCP, DNS, and activate the permanent evaluation license
+
+    4. Keep note of the UUID of the VM, as it will be used in the netlab configuration
+
+    5. Shut down the VM
+
+- [Create the Vagrant box](#create-the-vagrant-box)
+
+    1. Create a metadata file that will be used to create the Vagrant box
+
+    2. Download the box creation script from the vagrant-libvirt repository
+
+    3. Execute the box creation script to create the Vagrant box from the FortiGate VM qcow2 image
+
+    4. (Optional) Move the Vagrant box to a different location
+
+    5. Prepare the json file for the Vagrant box, so that it can be added to Vagrant with the correct version number
+
+    6. Add the box to Vagrant
+
+    7. Cleanup the FortiGate VM from libvirt, so that it can be used with netlab
+
+- [Create a lab using netlab](#create-a-lab-using-netlab)
+
+    1. Create a topology file for netlab with the FortiGate VM and other devices
+
+    2. Start the lab with netlab
+
+<!-- 9. Make sure you are using a recent version of the Ansible Galaxy collection for Fortinet. -->
 
 ## Image preparation
 
@@ -284,7 +315,7 @@ FGVMEVT8CK0CM4B0 #
 The system is halted.
 ```
 
-## Create the box
+## Create the Vagrant box
 
 This is the part strongly inspired by the steps described on [Pete's blog](https://blog.petecrocker.com/post/fortinet_vagrant_libvirt/).
 
@@ -408,9 +439,6 @@ sudo virsh undefine fortios748-vm
 ```
 
 ## Create a lab using netlab
-
-!!! note "Netlab"
-    If you are not familiar with netlab, you can find more information on the [netlab documentation](https://netlab.tools/). We are assuming you have netlab installed and configured on your system.
 
 ### 1. Topology file
 
