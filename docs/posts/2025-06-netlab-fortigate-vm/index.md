@@ -10,11 +10,10 @@ draft: false
 tags:
   - netlab
   - security
-# title: Get a (limited) FortiGate ready for lab usage, from qcow to netlab by creating a Vagrant box
 title: "Add a FortiGate in your virtual lab: from qcow to netlab by creating a Vagrant box"
 ---
 
-Want to test FortiGate in your virtual lab environment, and want to do **without** purchasing a license 💰? Discover how to spin up a FortiGate VM in your virtual lab, using the qcow image, Vagrant, and leveraging the power of netlab.
+Want to test FortiGate in your virtual lab environment, and want to do **without** purchasing a license 💰? Discover how to spin up a FortiGate VM in your virtual lab, using the qcow image, Vagrant, and leveraging the power of *netlab*.
 
 <!-- more -->
 
@@ -47,12 +46,12 @@ To follow this guide, we will assume:
 !!! note "FortiGate VM image"
     You have an account on the [Fortinet support portal](https://support.fortinet.com/) to download the FortiGate VM image, or an alternative way to obtain the `fortios.qcow2` image.
 
-!!! note "netlab"
-    You have a working installation of netlab, if not, check their [installation guide](https://netlab.tools/install/).
+!!! note "*netlab*"
+    You have a working installation of *netlab*, if not, check their [installation guide](https://netlab.tools/install/).
 
 ## Overview
 
-There are only a *few* steps to follow in order to get the FortiGate VM ready for use in netlab. We will deep dive into each step, but here is a quick overview of what we will do:
+There are only a *few* steps to follow in order to get the FortiGate VM ready for use in *netlab*. We will deep dive into each step, but here is a quick overview of what we will do:
 
 - [Image preparation](#image-preparation)
 
@@ -62,7 +61,7 @@ There are only a *few* steps to follow in order to get the FortiGate VM ready fo
 
     3. Configure the FortiGate VM with some basic settings: admin password, DHCP, DNS, and activate the permanent evaluation license
 
-    4. Keep note of the UUID of the VM, as it will be used in the netlab configuration
+    4. Keep note of the UUID of the VM, as it will be used in the *netlab* configuration
 
     5. Shut down the VM
 
@@ -80,13 +79,13 @@ There are only a *few* steps to follow in order to get the FortiGate VM ready fo
 
     6. Add the box to Vagrant
 
-    7. Cleanup the FortiGate VM from libvirt, so that it can be used with netlab
+    7. Cleanup the FortiGate VM from libvirt, so that it can be used with *netlab*
 
-- [Create a lab using netlab](#create-a-lab-using-netlab)
+- [Create a lab using *netlab*](#create-a-lab-using-netlab)
 
-    1. Create a topology file for netlab with the FortiGate VM and other devices
+    1. Create a topology file for *netlab* with the FortiGate VM and other devices
 
-    2. Start the lab with netlab
+    2. Start the lab with *netlab*
 
 <!-- 9. Make sure you are using a recent version of the Ansible Galaxy collection for Fortinet. -->
 
@@ -102,9 +101,9 @@ Once logged in, navigate to the **Download** section and select **VM Images**.
 
 From there, it should show **FortiGate** for the Select Product, and select **KVM** for the Select Platform. Select the version of the FortiGate VM you want to use, and download the appropriate image for your architecture. Once you extract the downloaded archive, you'll find the `fortios.qcow2` file:
 
-``` bash
-unzip FGT_VM64_KVM-v7.4.8.M-build2731-FORTINET.out.kvm.zip
-```
+    ``` bash
+    unzip FGT_VM64_KVM-v7.4.8.M-build2731-FORTINET.out.kvm.zip
+    ```
 
 ### 2. Create the VM with virt-install
 
@@ -234,7 +233,7 @@ FortiGate-VM64-KVM login:
 
 ### 4. Keep note of the UUID of the VM
 
-We want to keep a record of the UUID. This ensures that netlab creates the FortiGate in the future with the same UUID. If the UUID changes, the license will not work properly, as it's tied to both the UUID and the Serial Number of the VM. 
+We want to keep a record of the UUID. This ensures that *netlab* creates the FortiGate in the future with the same UUID. If the UUID changes, the license will not work properly, as it's tied to both the UUID and the Serial Number of the VM. 
 
 More information on license activation can be found on this [on this discussion page](https://community.fortinet.com/t5/FortiGate/Technical-Note-VM-License-activation/ta-p/190534), and another article specifically details an [issue with licensing due to a different UUID](https://community.fortinet.com/t5/FortiSwitch/Troubleshooting-Tip-License-invalid-due-to-exceeding-allowed-0/ta-p/355054).
 
@@ -248,7 +247,7 @@ virsh dominfo fortios748-vm | grep UUID
 UUID:           eb0603f4-0d27-43a5-b123-682dec123456
 ```
 
-You can also find it directly on the FortiGate using the CLI, but it won't have the format we want to use later in the topology file for netlab. The command to use is:
+You can also find it directly on the FortiGate using the CLI, but it won't have the format we want to use later in the topology file for *netlab*. The command to use is:
 
 ```fortios title="Get the Serial Number and UUID of the FortiGate VM"
 diagnose hardware sysinfo vm full
@@ -431,18 +430,18 @@ vyos/current                (libvirt, 20240817.00.20)
 
 ### 7. Cleanup
 
-To ensure we can use the FortiGate VM with netlab, you first need to shut down the one currently running and remove its definition from libvirt. Use the following command:
+To ensure we can use the FortiGate VM with *netlab*, you first need to shut down the one currently running and remove its definition from libvirt. Use the following command:
 
 ```bash title="Remove the FortiGate VM from virsh"
 sudo virsh destroy fortios748-vm
 sudo virsh undefine fortios748-vm
 ```
 
-## Create a lab using netlab
+## Create a lab using *netlab*
 
 ### 1. Topology file
 
-We need to tell netlab how we want to create our lab. The lab definition is done in a file called `topology.yml`. Here is an example of a lab with a FortiGate VM connected to two Arista cEOS devices. The Arista devices are created using containerlab, while the FortiGate VM uses the Vagrant box we just created.
+We need to tell *netlab* how we want to create our lab. The lab definition is done in a file called `topology.yml`. Here is an example of a lab with a FortiGate VM connected to two Arista cEOS devices. The Arista devices are created using containerlab, while the FortiGate VM uses the Vagrant box we just created.
 
 ```yaml title="topology.yml"
 ---
@@ -481,7 +480,7 @@ To start the lab, you just have to use the following command:
 netlab up
 ```
 
-Now netlab will create the lab based on the `topology.yml` file you just created. Once the devices are running, it will use Ansible to configure them as described in the `topology.yml` file, automatically handling all the IP addressing, basic configuration and setting `ospf` between the devices.
+Now *netlab* will create the lab based on the `topology.yml` file you just created. Once the devices are running, it will use Ansible to configure them as described in the `topology.yml` file, automatically handling all the IP addressing, basic configuration and setting `ospf` between the devices.
 
 ```bash {: .no-copy}
 ┌──────────────────────────────────────────────────────────────────────────────────┐
@@ -532,11 +531,11 @@ Et voilà! You should see the lab being created, with the FortiGate VM and the t
     You may notice that the OSPF is not established... What did I do wrong?? Don't worry, it can easily been fixed: this is due to MTU mismatch.
     The default MTU is 9500 for `fortios` and 1500 for `eos`.
 
-    netlab does not yet support configuring the MTU on `fortios`, so you will need to do it manually. I am planning to add this functionality to netlab in the future, as a small contribution and also a way for me to learn in more detail how netlab works...
+    *netlab* does not yet support configuring the MTU on `fortios`, so you will need to do it manually. I am planning to add this functionality to *netlab* in the future, as a small contribution and also a way for me to learn in more detail how *netlab* works...
 
 ## Conclusion
 
-Alright, we've made it! We took that official FortiGate qcow2 image, navigated the initial setup hurdles, and successfully transformed it into a Vagrant box ready for action in your netlab environments.
+Alright, we've made it! We took that official FortiGate qcow2 image, navigated the initial setup hurdles, and successfully transformed it into a Vagrant box ready for action in your *netlab* environments.
 
 We walked through the key steps – from downloading the image and getting the VM configured, to building the Vagrant box itself, and finally spinning it up in a simple lab topology alongside some other devices like Arista cEOS.
 
