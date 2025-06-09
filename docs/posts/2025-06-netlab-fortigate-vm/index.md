@@ -5,7 +5,7 @@ categories:
   - netlab
 date:
   created: 2025-06-06
-  # updated: 2025-xx-xx
+  updated: 2025-06-09
 draft: false
 tags:
   - netlab
@@ -29,7 +29,7 @@ Want to test FortiGate in your virtual lab environment, and want to do **without
 
 My goal here is to create an updated guide to deploy a FortiGate in a virtual lab environment, as the licensing has changed from the version `7.2.0`. It's mentioned in the [containerlab instructions](https://containerlab.dev/manual/kinds/fortinet_fortigate/#fortinet-fortigate). You may still be able to obtain a version `< 7.2.0` of the FortiGate, with a 15 day license, but I couldn't find it on the Fortinet support portal anymore...
 
-In this post, I'll be using the version `7.4.8`, to help you get started with setting up your virtual lab environment.
+In this post, I'll be using the version `7.4.8`, to help you get started with setting up your virtual lab environment. It works just as well with the version `7.6.3`, which is the latest version available at the time of writing.
 
 !!! tip "Licensing"
     Before you start, please note that the free license provided by Fortinet is great for experiencing their FortiGate, but it has some restrictions, which could affect what you want to achieve.
@@ -526,12 +526,17 @@ r2                         : ok=23   changed=3    unreachable=0    failed=0    s
 
 Et voilà! You should see the lab being created, with the FortiGate VM and the two Arista cEOS devices up and running, configured and ready to use.
 
-!!! warning "OSPF not established..."
+??? warning "OSPF not established..."
 
-    You may notice that the OSPF is not established... What did I do wrong?? Don't worry, it can easily been fixed: this is due to MTU mismatch.
-    The default MTU is 9500 for `fortios` and 1500 for `eos`.
+    You may notice that the OSPF is not established... What went wrong? Don't worry, it can easily been fixed: this is due to MTU mismatch.
 
-    *netlab* does not yet support configuring the MTU on `fortios`, so you will need to do it manually. I am planning to add this functionality to *netlab* in the future, as a small contribution and also a way for me to learn in more detail how *netlab* works...
+    With version `7.4.8`, the default MTU is 9500 on the FortiGate and 1500 for `eos`. 
+
+    *netlab* does not yet support configuring the MTU on `fortios`, so you will need to do it manually. I am planning to add this functionality to *netlab* in the future, as a small contribution and also a way for me to learn in more detail how *netlab* works... As soon as it's done, the default should be 1500, and the OSPF will be established automatically.
+
+    !!! note "but fine with `7.6.3`"
+
+        Weirdly, with `7.6.3`, the MTU is set to 1500 by default 🤔. I don't get it, but at least you won't have this problem. Yay!
 
 ## Conclusion
 
