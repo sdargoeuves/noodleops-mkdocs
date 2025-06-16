@@ -4,13 +4,13 @@ authors:
 categories:
   - netlab
 date:
-  created: 2025-06-06
-  updated: 2025-06-15
-draft: false
+  created: 2025-06-13
+#   updated: 2025-06-13
+draft: true
 tags:
   - netlab
   - security
-title: "Add a FortiGate in your virtual lab: from qcow to netlab by creating a Vagrant box"
+title: "Add a FortiGate in your virtual lab: from qcow to netlab by creating a Vagrant box - v2"
 ---
 
 Want to test FortiGate in your virtual lab environment, and want to do **without** purchasing a license 💰? Discover how to spin up a FortiGate VM in your virtual lab, using the qcow image, Vagrant, and leveraging the power of *netlab*.
@@ -157,40 +157,112 @@ FortiGate-VM64-KVM login:
 
 3. Apply the default configuration below, which you can find in the output of the command `netlab libvirt config fortios`
 
-  !!! warning "Password prompt in FortiOS 7.6.x"
-      If you are using FortiOS 7.6.x, you will be prompted for the admin password twice:
+   1. Set the root vdom as the management vdom and enable multi-vdom mode
 
-      ```fortios {: .no-copy}
-      FortiGate-VM64-KVM (vagrant) # set password ENC SH28SLSP20eURl8us/aceUFwjdJOggVKBfSQSP8eZi2dyoNferE+lgfmTIitbE=
-      Please enter current administrator password: *****
-
-      FortiGate-VM64-KVM (vagrant) # next
-      Please enter current administrator password: *****
+      ```fortios
+      config system global
+          set management-vdom root
+          set vdom-mode multi-vdom
+      end
       ```
 
-    ```bash title="Default configuration for the FortiGate VM"
-    config system admin
-        edit "vagrant"
-            set accprofile "super_admin"
-            set ssh-public-key1 "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key"
-            set password ENC SH28SLSP20eURl8us/aceUFwjdJOggVKBfSQSP8eZi2dyoNferE+lgfmTIitbE=
-        next
-    end
-    config system interface
-        edit "port1"
-            set vdom "root"
-            set mode dhcp
-            set allowaccess ping https ssh http fgfm
-        next
-    end
-    config system dns
-        set primary 1.1.1.1
-    end
-    ```
+      You will see the following message:
+
+      ```fortios {: .no-copy}
+      FortiGate-VM64-KVM (global) # end
+      You will be logged out for the operation to take effect.
+      Do you want to continue? (y/n)y
+
+      <pid-2004 /bin/cmdbsvr> Too many entries in all tables of 'ips.sensor': 10 / global-max=10
+      <pid-2004 /bin/cmdbsvr> Too many entries in all tables of 'ips.sensor': 10 / global-max=10
+      This VM license only supports one traffic vdom,
+      please set root vdom type to admin to create second vdom.
+      exit
+
+
+      FortiGate-VM64-KVM login:
+      ```
+
+   2. Make the `root` VDOM the management VDOM
+
+      As instructed as per the [permanent trial mode](https://docs.fortinet.com/document/fortigate/7.6.3/administration-guide/441460/permanent-trial-mode-for-fortigate-vm):
+
+      > Support for a maximum of two virtual domains (VDOM). When using multi-VDOM mode, the root VDOM must be an admin type and the other can be a traffic VDOM. See [VDOM types](https://docs.fortinet.com/document/fortigate/7.6.3/administration-guide/597696/vdom-overview#VDOMtypes).
+
+      Log back in to set the root VDOM type to admin:
+
+      ```fortios
+      config vdom
+          edit root
+              config system settings
+                  set vdom-type admin
+              end
+      ```
+
+      The output should look like this:
+
+      ```fortios {: .no-copy}
+      FortiGate-VM64-KVM # config vdom
+
+      FortiGate-VM64-KVM (vdom) # edit root
+      current vf=root:0
+
+      FortiGate-VM64-KVM (root) # config system settings
+
+      FortiGate-VM64-KVM (settings) # set vdom-type admin
+
+      FortiGate-VM64-KVM (settings) # end
+      Some settings (e.g., firewall policy/object, security profile, wifi/switch controller, user, device, dashboard)
+      in this VDOM will be deleted.
+      Do you want to continue? (y/n)y
+
+
+      FortiGate-VM64-KVM (root) # end
+
+      FortiGate-VM64-KVM #
+      ```
+
+   3. Configure the admin user and interface
+
+    !!! warning "Be cautious with copy & paste"
+        If you are using FortiOS 7.6, you will be prompted for the admin password twice:
+
+        ```fortios {: .no-copy}
+        FortiGate-VM64-KVM (vagrant) # set password ENC SH28SLSP20eURl8us/aceUFwjdJOggVKBfSQSP8eZi2dyoNferE+lgfmTIitbE=
+        Please enter current administrator password: *****
+
+        FortiGate-VM64-KVM (vagrant) # next
+        Please enter current administrator password: *****
+        ```
+
+      The following configuration will set the admin user, interface, and DNS settings.
+
+      ```fortios
+      config global
+          config system admin
+              edit "vagrant"
+                  set accprofile "super_admin"
+                  set ssh-public-key1 "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key"
+                  set password ENC SH28SLSP20eURl8us/aceUFwjdJOggVKBfSQSP8eZi2dyoNferE+lgfmTIitbE=
+              next
+          end
+          config system interface
+              edit "port1"
+                  set vdom "root"
+                  set mode dhcp
+                  set allowaccess ping https ssh http fgfm
+              next
+          end
+          config system dns
+              set primary 1.1.1.1
+          end
+      end
+      ```
 
 4. Activate the permanent evaluation license
 
     ```bash title="Activate the permanent evaluation license"
+    config global
     execute vm-license-options account-id <your-account-id>
     execute vm-license-options account-password <your-password>
     execute vm-license
@@ -219,13 +291,8 @@ FortiGate-VM64-KVM login:
     FortiGate-VM64-KVM # 
     ```
 
-5. ***(Optional)*** Connect to the UI via a web browser for the FortiGate setup wizard
+5. (Optional) Connect to the UI via a web browser and finish the setup
 
-  !!! info "Optional step"
-      This step is optional, but doing the setup before creating your Vagrant box means you won't have to repeat it every time you start a *netlab* lab.
-
-      If you skip this step, you will have to run through the setup every time you spin up a FortiGate VM in *netlab*, but **only** if you want to use the web UI!
-    
     You can connect to the FortiGate VM via a web browser using the IP address assigned by DHCP. The default username is `admin` and the password is the one you set in step 2. To find the IP address assigned by DHCP, you can use the `get system interface` command in the FortiGate VM CLI:
 
     ```fortios title="Get the IP address assigned by DHCP"
@@ -241,20 +308,9 @@ FortiGate-VM64-KVM login:
     Once logged in, you should see a page like this one:
     ![FortiGate Setup. Perform the following steps to complete the setup of this FortiGate. - Migrate Config with FortiConverter. - Automatic Patch Upgrades. - Dashboard Setup. - Change Your Password (ticked/completed)](fortigate-setup-01.png)
 
-  - **Migrate Config with FortiConverter**: the license does not allow you to use the FortiConverter, so you can skip this step.
-
-  - **Automatic Patch Upgrades**: you can enable this option if you want to receive automatic updates for the FortiGate VM.
-
-  - **Dashboard Setup**: I've used the optimal dashboard, but you can choose the option that suits you best.
-
-  !!! tip "SSH forwarding"
-      If you can't reach the FortiGate VM's IP address directly from your computer, you can use SSH forwarding via the server running netlab to access it. For example, the FortiGate VM's IP address in my setup is ⁠`192.168.122.3`.
-
-      ```bash
-      ssh -fNL 9998:192.168.122.3:443 user@my-netlab-server
-      ```
-
-      After running the command, you can access the FortiGate VM UI by navigating to `⁠https://localhost:9998` in your web browser.
+    - Migrate Config with FortiConverter: the license does not allow you to use the FortiConverter, so you can skip this step.
+    - Automatic Patch Upgrades: you can enable this option if you want to receive automatic updates for the FortiGate VM.
+    - Dashboard Setup: I've used the optimal dashboard, but you can choose the option that suits you best.
 
 ### 4. Keep note of the UUID of the VM
 
@@ -291,6 +347,12 @@ warning:  4294939521
 recv:     202505182336
 dup:
 ```
+
+<!-- 
+## Optional: Using the UI to configure the API Token
+
+https://docs.fortinet.com/document/forticonverter/7.2.0/online-help/866905/connect-fortigate-device-via-api-token
+-->
 
 ### 5. Shut down the VM
 
