@@ -480,8 +480,8 @@ nodes:
   fw1:
     device: fortios
     module: [ ospf ]
-    libvirt.uuid: 2532d8da-0424-4645-aa63-27a1a8aead2a # 7.4.8
-    loopback: false
+    libvirt.uuid: eb0603f4-0d27-43a5-b123-682dec123456 # 7.4.8
+    netlab_vdom: netlab
 
 links:
   - fw1:
@@ -561,7 +561,7 @@ Et voilà! You should see the lab being created, with the FortiGate VM and the t
 
         Weirdly, with `7.6.3`, the MTU is set to 1500 by default 🤔. I don't get it, but at least you won't have this problem. Yay!
     
-    **Sorted!** 🙌 It will now work as expected as long as you are using version 2.0.1 of *netlab*
+    **Sorted!** 🙌 It will now work as expected as long as you are using version [25.06](https://netlab.tools/release/25.06/) of *netlab*
 
 ## Conclusion
 
