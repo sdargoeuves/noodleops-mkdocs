@@ -20,8 +20,8 @@ theme:
     repo: fontawesome/brands/github 
   font:
     text: Geist
+    # text: Instrument Sans # another good option
     # text: Roboto # default?
-    # text: Instrument Sans # not bad at all!
     code: Fira Mono
   features:
     # - content.action.edit
