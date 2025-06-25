@@ -1,7 +1,7 @@
 ---
 date: 
   created: 2025-02-20
-  updated: 2025-02-21
+  updated: 2025-06-12
 draft: false
 hide:
   - navigation
@@ -43,7 +43,7 @@ As a Solution Architect at IP Fabric, I help innovative companies unlock their n
 
 ## Contact
 
-You can get in touch with me on [LinkedIn](https://www.linkedin.com/in/seb-dargoeuves/), or [GitHub](https://github.com/sdargoeuves). I am always happy to connect with like-minded individuals, and help where I can.
+You can get in touch with me on [LinkedIn](https://www.linkedin.com/in/seb-dargoeuves/), or [GitHub](https://github.com/sdargoeuves). I am always happy to connect with like-minded individuals.
 
 ## Privacy Policy
 

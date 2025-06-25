@@ -5,7 +5,7 @@ categories:
   - netlab
 date:
   created: 2025-06-06
-  updated: 2025-06-09
+  updated: 2025-06-15
 draft: false
 tags:
   - netlab
@@ -87,8 +87,6 @@ There are only a *few* steps to follow in order to get the FortiGate VM ready fo
 
     2. Start the lab with *netlab*
 
-<!-- 9. Make sure you are using a recent version of the Ansible Galaxy collection for Fortinet. -->
-
 ## Image preparation
 
 ### 1. Download the FortiGate VM image
@@ -101,15 +99,15 @@ Once logged in, navigate to the **Download** section and select **VM Images**.
 
 From there, it should show **FortiGate** for the Select Product, and select **KVM** for the Select Platform. Select the version of the FortiGate VM you want to use, and download the appropriate image for your architecture. Once you extract the downloaded archive, you'll find the `fortios.qcow2` file:
 
-    ``` bash
-    unzip FGT_VM64_KVM-v7.4.8.M-build2731-FORTINET.out.kvm.zip
-    ```
+```bash title="Extract the qcow2 image from the downloaded archive"
+unzip FGT_VM64_KVM-v7.4.8.M-build2795-FORTINET.out.kvm.zip
+```
 
 ### 2. Create the VM with virt-install
 
-We've already discussed how to use `virt-install` to create a VM in a [previous post](../2025-03-deploy-debianvm-via-cli/index.md). Here, we will use it to create the FortiGate VM using the downloaded `fortios.qcow2` image.
+We've already discussed how to use `virt-install` to create a VM in a [previous post](../2025-03-deploy-debianvm-via-cli/index.md). Here, we will use it to create the FortiGate VM using the downloadeded `fortios.qcow2` image.
 
-``` bash title="Start the FortiGate VM with virt-install"
+```bash title="Start the FortiGate VM with virt-install"
 sudo virt-install \
     --connect=qemu:///system \
     --name="fortios748-vm" \
@@ -125,7 +123,7 @@ sudo virt-install \
     --import
 ```
 
-``` bash {: .no-copy}
+```bash {: .no-copy}
 Starting install...
 Connected to domain fortios748-vm
 Escape character is ^]
@@ -143,7 +141,7 @@ FortiGate-VM64-KVM login:
 
 ### 3. Configure the FortiGate VM
 
-1. Log in with username `admin` and empty password
+1. Log in with username `admin` and *empty* password
 2. Set the new admin password to `admin`
 
     ```bash {: .no-copy}
@@ -158,6 +156,17 @@ FortiGate-VM64-KVM login:
     ```
 
 3. Apply the default configuration below, which you can find in the output of the command `netlab libvirt config fortios`
+
+  !!! warning "Password prompt in FortiOS 7.6.x"
+      If you are using FortiOS 7.6.x, you will be prompted for the admin password twice:
+
+      ```fortios {: .no-copy}
+      FortiGate-VM64-KVM (vagrant) # set password ENC SH28SLSP20eURl8us/aceUFwjdJOggVKBfSQSP8eZi2dyoNferE+lgfmTIitbE=
+      Please enter current administrator password: *****
+
+      FortiGate-VM64-KVM (vagrant) # next
+      Please enter current administrator password: *****
+      ```
 
     ```bash title="Default configuration for the FortiGate VM"
     config system admin
@@ -210,8 +219,13 @@ FortiGate-VM64-KVM login:
     FortiGate-VM64-KVM # 
     ```
 
-5. (Optional) Connect to the UI via a web browser and finish the setup
+5. ***(Optional)*** Connect to the UI via a web browser for the FortiGate setup wizard
 
+  !!! info "Optional step"
+      This step is optional, but doing the setup before creating your Vagrant box means you won't have to repeat it every time you start a *netlab* lab.
+
+      If you skip this step, you will have to run through the setup every time you spin up a FortiGate VM in *netlab*, but **only** if you want to use the web UI!
+    
     You can connect to the FortiGate VM via a web browser using the IP address assigned by DHCP. The default username is `admin` and the password is the one you set in step 2. To find the IP address assigned by DHCP, you can use the `get system interface` command in the FortiGate VM CLI:
 
     ```fortios title="Get the IP address assigned by DHCP"
@@ -227,13 +241,24 @@ FortiGate-VM64-KVM login:
     Once logged in, you should see a page like this one:
     ![FortiGate Setup. Perform the following steps to complete the setup of this FortiGate. - Migrate Config with FortiConverter. - Automatic Patch Upgrades. - Dashboard Setup. - Change Your Password (ticked/completed)](fortigate-setup-01.png)
 
-    - Migrate Config with FortiConverter: the license does not allow you to use the FortiConverter, so you can skip this step.
-    - Automatic Patch Upgrades: you can enable this option if you want to receive automatic updates for the FortiGate VM.
-    - Dashboard Setup: I've used the optimal dashboard, but you can choose the option that suits you best.
+  - **Migrate Config with FortiConverter**: the license does not allow you to use the FortiConverter, so you can skip this step.
+
+  - **Automatic Patch Upgrades**: you can enable this option if you want to receive automatic updates for the FortiGate VM.
+
+  - **Dashboard Setup**: I've used the optimal dashboard, but you can choose the option that suits you best.
+
+  !!! tip "SSH forwarding"
+      If you can't reach the FortiGate VM's IP address directly from your computer, you can use SSH forwarding via the server running netlab to access it. For example, the FortiGate VM's IP address in my setup is ⁠`192.168.122.3`.
+
+      ```bash
+      ssh -fNL 9998:192.168.122.3:443 user@my-netlab-server
+      ```
+
+      After running the command, you can access the FortiGate VM UI by navigating to `⁠https://localhost:9998` in your web browser.
 
 ### 4. Keep note of the UUID of the VM
 
-We want to keep a record of the UUID. This ensures that *netlab* creates the FortiGate in the future with the same UUID. If the UUID changes, the license will not work properly, as it's tied to both the UUID and the Serial Number of the VM. 
+We want to keep a record of the UUID. This ensures that *netlab* creates the FortiGate in the future with the same UUID. If the UUID changes, the license will not work properly, as it's tied to both the UUID and the Serial Number of the VM.
 
 More information on license activation can be found on this [on this discussion page](https://community.fortinet.com/t5/FortiGate/Technical-Note-VM-License-activation/ta-p/190534), and another article specifically details an [issue with licensing due to a different UUID](https://community.fortinet.com/t5/FortiSwitch/Troubleshooting-Tip-License-invalid-due-to-exceeding-allowed-0/ta-p/355054).
 
@@ -266,12 +291,6 @@ warning:  4294939521
 recv:     202505182336
 dup:
 ```
-
-<!-- 
-## Optional: Using the UI to configure the API Token
-
-https://docs.fortinet.com/document/forticonverter/7.2.0/online-help/866905/connect-fortigate-device-via-api-token
--->
 
 ### 5. Shut down the VM
 
@@ -426,7 +445,7 @@ vyos/current                (libvirt, 20240817.00.20)
     sudo virsh vol-list --pool default
     ```
 
-🥳 Great Job, we now have a Vagrant box ready to be used!
+🥳 Great job, we now have a Vagrant box ready to be used!
 
 ### 7. Cleanup
 
@@ -460,10 +479,9 @@ groups:
 nodes:
   fw1:
     device: fortios
-    memory: 2048
     module: [ ospf ]
-    libvirt.uuid: 2532d8da-0424-4645-aa63-27a1a8aead2a # 7.4.8
-    loopback: false
+    libvirt.uuid: eb0603f4-0d27-43a5-b123-682dec123456 # 7.4.8
+    netlab_vdom: netlab
 
 links:
   - fw1:
@@ -526,17 +544,24 @@ r2                         : ok=23   changed=3    unreachable=0    failed=0    s
 
 Et voilà! You should see the lab being created, with the FortiGate VM and the two Arista cEOS devices up and running, configured and ready to use.
 
-??? warning "OSPF not established..."
+![Topology view built by IP Fabric of the FortiGate VM connected to two Arista cEOS devices running in netlab](netlab-topology-ipfabric.png){ width=600 }
+/// caption
+<!-- keep empty to center the image, without a caption -->
+///
 
-    You may notice that the OSPF is not established... What went wrong? Don't worry, it can easily been fixed: this is due to MTU mismatch.
+??? tip "OSPF ~~not~~ now established..."
 
-    With version `7.4.8`, the default MTU is 9500 on the FortiGate and 1500 for `eos`. 
+    ~~You may notice that the OSPF is not established... What went wrong? Don't worry, it can easily been fixed: this is due to MTU mismatch.~~
 
-    *netlab* does not yet support configuring the MTU on `fortios`, so you will need to do it manually. I am planning to add this functionality to *netlab* in the future, as a small contribution and also a way for me to learn in more detail how *netlab* works... As soon as it's done, the default should be 1500, and the OSPF will be established automatically.
+    ~~With version `7.4.8`, the default MTU is 9500 on the FortiGate and 1500 for `eos`.~~
+
+    ~~*netlab* does not yet support configuring the MTU on `fortios`, so you will need to do it manually. I am planning to add this functionality to *netlab* in the future, as a small contribution and also a way for me to learn in more detail how *netlab* works... As soon as it's done, the default should be 1500, and the OSPF will be established automatically.~~
 
     !!! note "but fine with `7.6.3`"
 
         Weirdly, with `7.6.3`, the MTU is set to 1500 by default 🤔. I don't get it, but at least you won't have this problem. Yay!
+    
+    **Sorted!** 🙌 It will now work as expected as long as you are using version [25.06](https://netlab.tools/release/25.06/) of *netlab*
 
 ## Conclusion
 

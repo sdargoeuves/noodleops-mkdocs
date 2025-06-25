@@ -18,6 +18,11 @@ theme:
   favicon: favicon/favicon-96x96.png
   icon:
     repo: fontawesome/brands/github 
+  font:
+    text: Geist
+    # text: Instrument Sans # another good option
+    # text: Roboto # default?
+    code: Fira Mono
   features:
     # - content.action.edit
     - content.code.copy
