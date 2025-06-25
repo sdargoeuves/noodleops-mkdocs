@@ -4,7 +4,7 @@ authors:
 # categories:
 #   - netlab
 date:
-  created: 2025-07-xx
+  created: 2025-07-01
 #   updated: 2025-06-13
 draft: true
 tags:
@@ -25,4 +25,3 @@ Something...
 
 !!! info "Disclaimer"
     Nothing to read yet!
-
