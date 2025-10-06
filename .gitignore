@@ -1,3 +1,12 @@
+## Weird issue with Cairo lib not found on Mac
+libcairo.2.dylib
+
+# mkdocs documentation
+/site
+
+# mkdocs documentation
+/site
+
 # Hugo
 public/
 resources/
@@ -149,9 +158,6 @@ venv.bak/
 
 # Rope project settings
 .ropeproject
-
-# mkdocs documentation
-/site
 
 # mypy
 .mypy_cache/

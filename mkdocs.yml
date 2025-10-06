@@ -27,6 +27,7 @@ theme:
     # - content.action.edit
     - content.code.copy
     - content.code.annotate
+    - content.tabs.link
     # - navigation.expand # not needed if using navigation.sections
     - navigation.footer
     - navigation.indexes
@@ -89,8 +90,8 @@ markdown_extensions:
   # - pymdownx.mark # sort of highlighting text
   - pymdownx.smartsymbols # smart symbols like (c) -> ©
   - pymdownx.superfences # nested fences and other features
-  # - pymdownx.tabbed:
-  #     alternate_style: true
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.tasklist:
       custom_checkbox: true # prettier checkboxes
   - pymdownx.tilde
