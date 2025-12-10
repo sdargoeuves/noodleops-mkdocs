@@ -41,7 +41,7 @@ In this post, I'll be using the version `7.4.8`, to help you get started with se
 To follow this guide, we will assume:
 
 !!! note "Environment"
-    You have an environment with KVM, Vagrant and the Vagrant plugin `vagrant-libvirt` already installed. You can check steps 1 and 2 of this [post](https://computingforgeeks.com/using-vagrant-with-libvirt-on-linux/) to prepare your environment.
+    You have an environment with KVM, Vagrant and the Vagrant plugin `vagrant-libvirt` already installed. You can check steps 1 and 2 of this [post](https://computingforgeeks.com/using-vagrant-with-libvirt-on-linux/) to prepare your environment. This is also a requirement for *netlab* if using `libvirt` as provider.
 
 !!! note "FortiGate VM image"
     You have an account on the [Fortinet support portal](https://support.fortinet.com/) to download the FortiGate VM image, or an alternative way to obtain the `fortios.qcow2` image.
