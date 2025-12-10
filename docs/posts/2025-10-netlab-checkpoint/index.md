@@ -4,8 +4,8 @@ authors:
 categories:
   - netlab
 date:
-  created: 2025-10-03
-  updated: 2025-12-05
+  created: 2025-10-26
+  updated: 2025-12-10
 draft: true
 tags:
   - netlab
@@ -25,7 +25,7 @@ You might have read the [blog post](../2025-06-netlab-fortigate-vm/index.md) abo
 ## Introduction
 
 !!! info "Disclaimer"
-    This will look similar to the FortiGate blog post I did a little while ago, but it was a lot more fiddly to get to this solution for Check Point.
+    This post will look similar to the FortiGate guide I did a little while ago, but it was a lot more fiddly to arrive at a working solution for Check Point.
 
 ### Overview
 
@@ -44,7 +44,7 @@ We will be using the CloudGuard image, configured as a standalone, so you won't 
 ### Important Limitation: Static Management IP
 
 !!! warning "Management IP Address Constraint"
-    **Unlike most Vagrant boxes, this Check Point box requires a pre-configured management IP address.**
+    **Unlike most Vagrant boxes, this Check Point box requires a statically pre-configured management IP address.**
 
     This limitation is discussed on the [Check Point community forum](https://community.checkpoint.com/t5/CloudMates-General/Management-Interface-eth0-assigned-via-DHCP-cannot-remove-the/m-p/259419#M608). I explored several workarounds (including attaching ISOs dynamically), but this pre‑configuration approach was the only one I found reliable.
 
@@ -60,20 +60,20 @@ We will be using the CloudGuard image, configured as a standalone, so you won't 
     
     - Each Vagrant box you create will have a **fixed management IP**
     - You'll need to create separate boxes for different management subnets
-    - The management IP must match what you'll use in your netlab topology
+    - The management IP must match what you'll use in your *netlab* topology
     - Changing the IP post-creation will break policy installation and certificate management
     
-    **Example:** If you plan to use `10.194.59.200` for Check Point management IP in your netlab environment, create your box with that IP. If you need a different IP (`192.168.1.100`), you'll need to create another box. 
+    **Example:** If you plan to use `10.194.59.200` for Check Point management IP in your *netlab* environment, create your box with that IP. If you need a different IP (`192.168.1.100`), you'll need to create another box. 
     
     !!! note "Matching IP Addresses"
-        Ensure the management IP in your netlab topology matches the one used during box creation. You can influence the management IP by adjusting the `id` field in your netlab topology file.
+        Ensure the management IP in your *netlab* topology matches the one used during box creation. You can influence the management IP by adjusting the `id` field in your *netlab* topology file.
 
 ### Prerequisites
 
 To follow this guide, you'll need:
 
 !!! note "Check Point image"
-    An account on the [Check Point support portal](https://support.checkpoint.com/) to download the Check Point CloudGuard image.
+    An account on the [Check Point support portal](https://support.checkpoint.com/) so you can download the Check Point CloudGuard image.
 
 !!! note "System Requirements"
     **Hardware requirements** (based on this [Check Point document](https://sc1.checkpoint.com/documents/R81.20/WebAdminGuides/EN/CP_R81.20_RN/Content/Topics-RN/Open-Server-Hardware-Requirements.htm?tocpath=Open%20Server%20Hardware%20Requirements%7C_____0#Open_Server_Hardware_Requirements))
@@ -87,9 +87,9 @@ To follow this guide, you'll need:
 
 ## TL;DR
 
-If you just want to get a Check Point FW in your lab, I've created a bash script which will perform all the required steps to create the vagrant box. You can then use this box in your netlab topology.
+If you just want to get a Check Point FW in your lab, I've created a bash script which will perform all the required steps to create the vagrant box. You can then use this box in your *netlab* topology.
 
-Go to the [GitHub repository](https://github.com/not_yet_created), follow the instructions in the README file to create your box and use it in your netlab topology. You will still need to download the Check Point image manually: [CloudGuard Network Security Gateway for Linux KVM (R81.20)](https://support.checkpoint.com/results/download/133476)
+Go to the [GitHub repository](https://github.com/not_yet_created), follow the instructions in the README file to create your box and use it in your *netlab* topology. You will still need to download the Check Point image manually: [CloudGuard Network Security Gateway for Linux KVM (R81.20)](https://support.checkpoint.com/results/download/133476)
 
 ## Phase 1 - Prepare the ISO configuration file
 
@@ -117,7 +117,7 @@ The file name must be `user_data` and the content is in YAML format. Here is the
 #### Basic configuration and network settings
 
 !!! note "Management IP Address"
-    This IP address must match what you will use in your netlab topology.
+    This IP address must match what you will use in your *netlab* topology.
 
 ```bash
 #cloud-config
@@ -148,7 +148,7 @@ I don't think this part of the file needs much explanation, just ensure you set 
 
 **Why configure a static IP here?** If you remove the `network` section, the VM will get an IP address via DHCP during the boot process. While this works initially, Check Point records this DHCP-assigned IP as the management server address. Later, when you create a VM from this box, if the DHCP server assigns a *different* IP address to eth0, it will create a mismatch that breaks policy installation, certificate management, and other critical functions that depend on the management IP remaining consistent.
 
-By configuring a static IP now, we ensure the management IP matches what you'll use in your netlab topology.
+By configuring a static IP now, we ensure the management IP matches what you'll use in your *netlab* topology.
 
 #### RUNCMD section
 
@@ -282,7 +282,7 @@ This seems contradictory, but it's necessary for Vagrant compatibility:
 - **Static IP during First Time Wizard** → Check Point configures the Security Management Server address using eth0's static IP (defined as `10.194.58.200` in my example). If you use DHCP at this stage, it will likely assign an IP from the default Vagrant subnet, probably not the one used by *netlab*. Additionally, Vagrant cannot reliably detect the IP unless DHCP is enabled.
 - **DHCP enabled afterwards** → the Security Gateway `eth0` will now get its IP via DHCP, allowing Vagrant to detect it. As long as DHCP assigns the same IP (`10.194.58.200`) it will match the IP of the Security Management Server.
 
-**The key:** Your netlab topology must assign the **same IP** (`10.194.58.200`). When done correctly, Check Point's management system and Vagrant's detection both work correctly.
+**The key:** Your *netlab* topology must assign the **same IP** (`10.194.58.200`). When done correctly, Check Point's management system and Vagrant's detection both work correctly.
 
 This is why DHCP is essential: without it, `vagrant up` will fail to detect the IP of the VM, and timeout.
 

@@ -72,13 +72,13 @@
   My final Vagrant box has the default cleanup rule blocking all traffic. I use the playbook to automate the firewall rules after the VM is created in *netlab*.
   ```
 
-- [ ] **Intro disclaimer – slightly tighter wording**  
+- [x] **Intro disclaimer – slightly tighter wording**  
   Replace the text inside the `!!! info "Disclaimer"` block with:
   ```markdown
   This post will look similar to the FortiGate guide I published earlier, but it was significantly more fiddly to arrive at a working solution for Check Point.
   ```
 
-- [ ] **Important limitation – emphasize static nature once**  
+- [x] **Important limitation – emphasize static nature once**  
   In the `### Important Limitation: Static Management IP` section, replace:
   ```markdown
   **Unlike most Vagrant boxes, this Check Point box requires a pre-configured management IP address.**
@@ -108,10 +108,10 @@
   An account on the [Check Point support portal](https://support.checkpoint.com/) so you can download the Check Point CloudGuard image.
   ```
 
-- [ ] **Prerequisites – System Requirements bullets spacing**  
+- [x] **Prerequisites – System Requirements bullets spacing**  
   In the `!!! note "System Requirements"` block, ensure there is a blank line between the introductory line and the bullet list, and that all bullets start with `- **` (CPU, RAM, Disk space, etc.) for consistent formatting.
 
-- [ ] **RUNCMD > Create Time loop – emoji spacing**  
+- [x] **RUNCMD > Create Time loop – emoji spacing**  
   In the sentence:
   ```markdown
   It means the VM will never be more than 7 days old... you may find it useful 🙈🙉🙊
@@ -127,7 +127,7 @@
       # ipv4: 172.60.40.2/30 # netlab does not configure Check Point configuration, so we will have to do it ourselves later.
   ```
 
-- [ ] **Appendix – small wording fixes in Boxen section**  
+- [x] **Appendix – small wording fixes in Boxen section**  
   In the `### Attempt with Boxen` summary paragraph, replace:
   ```markdown
   infact very similar to what we've done with the FortiGate VM
