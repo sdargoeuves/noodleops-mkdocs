@@ -1,3 +1,14 @@
+## Weird issue with Cairo lib not found
+# https://github.com/squidfunk/mkdocs-material/issues/5121
+# so we've created a symlink to fix it: ln -s /opt/homebrew/lib/libcairo.2.dylib .
+libcairo.2.dylib
+
+# mkdocs documentation
+/site
+
+# mkdocs documentation
+/site
+
 # Hugo
 public/
 resources/
@@ -149,9 +160,6 @@ venv.bak/
 
 # Rope project settings
 .ropeproject
-
-# mkdocs documentation
-/site
 
 # mypy
 .mypy_cache/

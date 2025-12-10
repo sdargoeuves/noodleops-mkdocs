@@ -5,12 +5,12 @@ categories:
   - netlab
 date:
   created: 2025-06-06
-  updated: 2025-09-13
+  updated: 2025-12-10
 draft: false
 tags:
   - netlab
   - security
-title: "Add a FortiGate in your virtual lab: from qcow to netlab by creating a Vagrant box"
+title: "Add a FortiGate firewall in your virtual lab: from qcow to netlab by creating a Vagrant box"
 ---
 
 Want to test FortiGate in your virtual lab environment, and want to do **without** purchasing a license 💰? Discover how to spin up a FortiGate VM in your virtual lab, using the qcow image, Vagrant, and leveraging the power of *netlab*.
@@ -53,39 +53,27 @@ To follow this guide, we will assume:
 
 There are only a *few* steps to follow in order to get the FortiGate VM ready for use in *netlab*. We will deep dive into each step, but here is a quick overview of what we will do:
 
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+- [Overview](#overview)
 - [Image preparation](#image-preparation)
-
-    1. Download the FortiGate VM image from the Fortinet support portal, selecting the KVM option
-
-    2. Create the VM with `virt-install`
-
-    3. Configure the FortiGate VM with some basic settings: admin password, DHCP, DNS, and activate the permanent evaluation license
-
-    4. Keep note of the UUID of the VM, as it will be used in the *netlab* configuration
-
-    5. Shut down the VM
-
+  - [1. Download the FortiGate VM image](#1-download-the-fortigate-vm-image)
+  - [2. Create the VM with virt-install](#2-create-the-vm-with-virt-install)
+  - [3. Configure the FortiGate VM](#3-configure-the-fortigate-vm)
+  - [4. Keep note of the UUID of the VM](#4-keep-note-of-the-uuid-of-the-vm)
+  - [5. Shut down the VM](#5-shut-down-the-vm)
 - [Create the Vagrant box](#create-the-vagrant-box)
-
-    1. Create a metadata file that will be used to create the Vagrant box
-
-    2. Download the box creation script from the vagrant-libvirt repository
-
-    3. Execute the box creation script to create the Vagrant box from the FortiGate VM qcow2 image
-
-    4. (Optional) Move the Vagrant box to a different location
-
-    5. Prepare the json file for the Vagrant box, so that it can be added to Vagrant with the correct version number
-
-    6. Add the box to Vagrant
-
-    7. Cleanup the FortiGate VM from libvirt, so that it can be used with *netlab*
-
+  - [1. Create a metadata file that will be used to create the Vagrant box](#1-create-a-metadata-file-that-will-be-used-to-create-the-vagrant-box)
+  - [2. Download the box creation script](#2-download-the-box-creation-script)
+  - [3. Execute the box creation script](#3-execute-the-box-creation-script)
+  - [4. (Optional) Move the Vagrant box to a different location](#4-optional-move-the-vagrant-box-to-a-different-location)
+  - [5. Prepare the json file for the Vagrant box](#5-prepare-the-json-file-for-the-vagrant-box)
+  - [6. Add the box to Vagrant](#6-add-the-box-to-vagrant)
+  - [7. Cleanup](#7-cleanup)
 - [Create a lab using *netlab*](#create-a-lab-using-netlab)
-
-    1. Create a topology file for *netlab* with the FortiGate VM and other devices
-
-    2. Start the lab with *netlab*
+  - [1. Topology file](#1-topology-file)
+  - [2. Start the lab](#2-start-the-lab)
+- [Conclusion](#conclusion)
 
 ## Image preparation
 
@@ -248,7 +236,7 @@ FortiGate-VM64-KVM login:
   - **Dashboard Setup**: I've used the optimal dashboard, but you can choose the option that suits you best.
 
   !!! tip "SSH forwarding"
-      If you can't reach the FortiGate VM's IP address directly from your computer, you can use SSH forwarding via the server running netlab to access it. For example, the FortiGate VM's IP address in my setup is ⁠`192.168.122.3`.
+      If you can't reach the FortiGate VM's IP address directly from your computer, you can use SSH forwarding via the server running *netlab* to access it. For example, the FortiGate VM's IP address in my setup is ⁠`192.168.122.3`.
 
       ```bash
       ssh -fNL 9998:192.168.122.3:443 user@my-netlab-server
