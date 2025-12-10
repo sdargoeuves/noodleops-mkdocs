@@ -89,7 +89,7 @@ To follow this guide, you'll need:
 
 If you just want to get a Check Point FW in your lab, I've created a bash script which will perform all the required steps to create the vagrant box. You can then use this box in your *netlab* topology.
 
-Go to the [GitHub repository](https://github.com/not_yet_created), follow the instructions in the README file to create your box and use it in your *netlab* topology. You will still need to download the Check Point image manually: [CloudGuard Network Security Gateway for Linux KVM (R81.20)](https://support.checkpoint.com/results/download/133476)
+Go to the [GitHub repository](https://github.com/sdargoeuves/automate_checkpoint_lab), follow the instructions in the README file to create your box and use it in your *netlab* topology. You will still need to download the Check Point image manually: [CloudGuard Network Security Gateway for Linux KVM (R81.20)](https://support.checkpoint.com/results/download/133476)
 
 ## Phase 1 - Prepare the ISO configuration file
 
@@ -762,13 +762,19 @@ This will bring two Arista switches, two Linux hosts, and the Check Point firewa
 - OSPF configuration to peer with the switches,
 - Policies to allow traffic between the two hosts.
 
+## Conclusion
+
+By now, you’ve taken the official Check Point CloudGuard image, automated its first-time configuration, and packaged it as a reusable Vagrant box ready for *netlab*. This gives you a repeatable way to spin up a fully functional Check Point firewall in your virtual lab, with a predictable management IP and API access enabled for automation.
+
+If you’re also using FortiGate in your lab, you can now compare behaviours and policies side by side across vendors. And of course, feel free to adapt any of the steps here — different RAM/CPU settings, other versions, or your own playbooks — to better fit your environment and use cases.
+
 ## Appendix
 
 ### Attempt with Boxen
 
 #### Summary of the attempt with boxen
 
-`boxen` is an interesting project, to package KVM/QEMU virtual machines into Docker containers. It can work and may work for you, but for me, having the same management IP configured on the Check Point VM and the one used to connect to it was important. Because of this, I have used the other approach, directly with running the VM with KVM/QEMU, infact very similar to what we've done with the FortiGate VM in [this previous post](../2025-06-netlab-fortigate-vm/index.md).
+`boxen` is an interesting project, to package KVM/QEMU virtual machines into Docker containers. It can work and may work for you, but for me, having the same management IP configured on the Check Point VM and the one used to connect to it was important. Because of this, I have used the other approach, directly with running the VM with KVM/QEMU, in fact very similar to what we've done with the FortiGate VM in [this previous post](../2025-06-netlab-fortigate-vm/index.md).
 
 #### Image preparation to use with boxen
 
@@ -777,7 +783,7 @@ This will bring two Arista switches, two Linux hosts, and the Check Point firewa
 This Check Point page lists the [CloudGuard Network Security for Private Cloud images](https://support.checkpoint.com/results/sk/sk158292). You don't need to be logged in to access this page, but you do to download the image. We will be using the image for the platform `KVM/Nutanix AHV/OpenStack` with the deployment type `All deployment types with default admin password`.
 
 !!! note "Image selection"
-    At the time of writing, the latest version is R82, but I went for the R81_20 as I had an issue with R82, but did not explored further. Here is the direct link to the [download page for R81_20](https://support.checkpoint.com/results/download/133476).
+    At the time of writing, the latest version is R82, but I went for R81_20 as I had an issue with R82, but did not explored further. Here is the direct link to the [download page for R81_20](https://support.checkpoint.com/results/download/133476).
 
 ![Screenshot from the Check Point page: CloudGuard Network Security for Private Cloud images, highlighting the one we used](check-point_image_selection.png)
 
