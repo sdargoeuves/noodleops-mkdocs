@@ -47,6 +47,7 @@ theme:
   palette:
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"
+      primary: indigo # required by zensical's social card layout
       toggle:
         icon: material/brightness-auto
         name: Switch to light mode
