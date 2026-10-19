@@ -1,9 +1,7 @@
 site_name: NoodleOps
-site_url: https://noodleops.com/
+site_url: https://noodleops.space/
 site_author: sdargoeuves
 site_description: Noodling through Network and Operations
-# repo_url: https://github.com/sdargoeuves/noodleops-mkdocs
-# repo_name: noodleops-mkdocs
 
 nav:
   - Blog:
@@ -12,6 +10,7 @@ nav:
   - About: about.md
 
 theme:
+  variant: modern # classic or modern
   name: material
   custom_dir: overrides
   logo: assets/logo.svg
@@ -21,7 +20,6 @@ theme:
   font:
     text: Geist
     # text: Instrument Sans # another good option
-    # text: Roboto # default?
     code: Fira Mono
   features:
     # - content.action.edit
@@ -47,6 +45,7 @@ theme:
   palette:
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"
+      primary: indigo
       toggle:
         icon: material/brightness-auto
         name: Switch to light mode
@@ -102,6 +101,9 @@ markdown_extensions:
   # - toc: # not needed, it will just add the anchor links to the TOC
       # permalink: true
       # permalink_title: Anchor link to this section for reference
+
+extra_javascript:
+  - assets/js/external-links.js
 
 extra_css:
   - assets/css/custom.css
