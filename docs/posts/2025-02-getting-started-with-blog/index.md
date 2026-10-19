@@ -2,7 +2,7 @@
 authors:
   - sdargoeuves
 # categories:
-#   - Writing
+#   - blog
 date:
   created: 2025-02-21
   updated: 2025-06-03

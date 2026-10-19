@@ -1,9 +1,7 @@
 site_name: NoodleOps
-site_url: https://noodleops.com/
+site_url: https://noodleops.space/
 site_author: sdargoeuves
 site_description: Noodling through Network and Operations
-# repo_url: https://github.com/sdargoeuves/noodleops-mkdocs
-# repo_name: noodleops-mkdocs
 
 nav:
   - Blog:
