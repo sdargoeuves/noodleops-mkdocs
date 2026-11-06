@@ -5,7 +5,7 @@ categories:
   - netlab
 date:
   created: 2026-11-01
-  # updated: 2026-10-02
+  updated: 2026-11-06
 draft: false
 tags:
   - netlab
@@ -241,6 +241,6 @@ Continuing the discussion with Claude, we also checked other technologies/protoc
 
 ## Conclusion
 
-As I couldn't find a fix, I had to use the workaround, which was to use CDP on those links instead of LLDP, so PIM can be enabled.
+As I couldn't find a fix, I went with the workaround: using CDP on those links instead of LLDP, so I could keep PIM enabled.
 
-But the real conclusion is not this, it's how useful it is to have a lab you can easily use, very flexible, to quickly test something like this LLDP & PIM. You update one line in your topology file, and you can perform the same tests with a different vendor, as LONG AS YOU CAN GET THEIR image... but that's a totally different topic!
+But the real conclusion is not just this, it's how useful it is to have a lab you can easily spin up and down to quickly test something like this LLDP and PIM quirk. Update one line in your topology file, and you can run the same tests with a different vendor, as LONG AS YOU CAN GET THEIR image... but that's a totally different topic!
