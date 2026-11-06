@@ -1,0 +1,424 @@
+# LLDP disappears when PIM is enabled on Cisco IOL
+
+> Source notes for a blog post. Facts are marked as observed; interpretations
+> are marked as such. Tested 2026-10-31.
+
+## TL;DR
+
+- On Cisco IOL 17.18.02 (both the L3 `iol` and L2 `ioll2` images, run with
+  containerlab), enabling PIM on an interface stops that interface from
+  **receiving** LLDP. It keeps sending, so the neighbor still sees it.
+- Removing PIM does not bring LLDP back. The interface stays broken until
+  something rebuilds its MAC filter.
+- CDP keeps working.
+- IOSv, cEOS and FRR (Linux + `lldpd`), with the same PIM config, are not
+  affected.
+- `show controllers EthernetX/Y` on IOL shows why: PIM switches the emulated
+  NIC's software MAC filter into enforced mode (`need_af_check=1`). The LLDP
+  MAC `01:80:c2:00:00:0e` was never in the list, so from then on LLDP frames
+  are dropped.
+
+## The story
+
+1. **Before:** a lab with Cisco IOSv routers (libvirt VMs) running PIM sparse
+   mode (SSM) for multicast. LLDP neighbors were visible everywhere.
+2. **The change:** to save memory, the routers were moved from IOSv to IOL
+   containers (containerlab). Same configuration, same multicast setup.
+3. **The symptom:** `show lldp neighbors` on the multicast routers was empty
+   or incomplete. As a workaround, CDP was enabled to see L1 neighbors, with a
+   comment guessing that "PIM likely clashes with multicast used by LLDP".
+4. **First look:** `debug lldp packets` showed `TX'd` on every data interface
+   and `RX'd` only on Ethernet0/0. That turned out to be a red herring:
+   Ethernet0/0 is the management interface, where `no lldp receive` is
+   configured, so those frames were ignored by design.
+5. **First test, misleading:** `no ip pim sparse-mode` on the interfaces did
+   not bring LLDP back. That looked like PIM was not the cause, and the
+   IOSv → IOL migration became the main suspect.
+6. **The clue:** on one router, LLDP worked on the two interfaces without PIM
+   and failed on the one with PIM. One of the working interfaces ran EIGRP and
+   OSPF, so routing-protocol multicast (224.0.0.5, 224.0.0.10) was not the
+   problem.
+7. **Controlled test:** adding `ip pim sparse-mode` to a working interface
+   made the LLDP neighbor disappear within about 2 minutes. Removing it did
+   not bring it back; `shutdown` / `no shutdown` did. That explained step 5:
+   the effect is sticky.
+8. **Small test lab:** 2× `iol` + 2× `ioll2`, nothing else. Reproduced on
+   both images, in both PIM modes.
+9. **The discovery:** `show controllers EthernetX/Y` on IOL shows a
+   "Software MAC address filter" and a `need_af_check` flag that matches LLDP
+   reception on every interface checked.
+10. **A wrong turn:** the same output has a `filtered_pak` counter that only
+    grows on broken interfaces, about once every 30 s (the LLDP interval).
+    It looked like the dropped LLDP frames. Changing the peer's LLDP rate
+    (stopped, then every 5 s) did not change it, so it counts something else.
+11. **Other platforms:** cEOS, IOSv and FRR, same PIM setup: LLDP keeps
+    working. IOSv and Linux both list the LLDP MAC in their interface filter;
+    IOL never does.
+
+## Environment
+
+| Platform | Image | Provider |
+| --- | --- | --- |
+| IOL (L3) | `vrnetlab/cisco_iol:17.18.02` | containerlab |
+| IOL-L2 | `vrnetlab/cisco_iol:L2-17.18.02` (routed ports, `no switchport`) | containerlab |
+| cEOS | `ceos:4.35.6M` | containerlab |
+| IOSv | `cisco/iosv` 15.6T | libvirt |
+| FRR | `quay.io/frrouting/frr:10.7.1` + `lldpd` from Alpine | containerlab |
+
+Labs built with netlab. netlab configures `lldp run` on IOL/IOSv and
+`no lldp transmit` / `no lldp receive` on the management interface.
+
+## Findings on IOL
+
+### What breaks and what does not
+
+Observed in the 4-node IOL lab, checked 40–45 s after `clear lldp table`:
+
+| Config on the interface | LLDP RX on that interface |
+| --- | --- |
+| No multicast config | yes |
+| `ip multicast-routing` only (global) | yes |
+| `ip igmp join-group 239.1.1.1` (no PIM) | yes |
+| `ip pim sparse-mode` | **no** |
+| `ip pim dense-mode` | **no** |
+| PIM removed | **no** (sticky) |
+| PIM removed + `no lldp receive` / `lldp receive` | **no** |
+| PIM removed + `shutdown` / `no shutdown` (`ioll2`) | **no** |
+| PIM removed + `shutdown` / `no shutdown` (`iol`, original lab) | yes |
+| PIM removed + `cdp enable`, or `no cdp enable` / `cdp enable` | yes |
+| PIM still on + `shutdown` / `no shutdown` | **no** |
+
+Other observations:
+
+- Only reception is affected: a PIM interface keeps sending LLDP, and a
+  neighbor without PIM still learns it.
+- `debug lldp packets` logs `TX'd` but no `RX'd` on affected interfaces.
+- `ip multicast-routing` is not needed: PIM on the interface alone is enough.
+- CDP works on the same interfaces where LLDP fails.
+
+### `show controllers`: the software MAC filter
+
+On IOL, `show controllers EthernetX/Y` reports `Hardware is AMD Unknown` and a
+software MAC address filter. An affected interface:
+
+```
+ Software MAC address filter(hash:length/addr/mask/hits):
+  0x00:  0  ffff.ffff.ffff  0000.0000.0000         0
+  0xC0:  0  0180.c200.0002  0000.0000.0000         0
+  0xC5:  0  0180.c200.0007  0000.0000.0000         0
+  0xDC:  0  aabb.cc00.0110  0000.0000.0000         0
+  0x00:  0  0100.5e7f.ffff  0000.007f.ffff         0
+ spurious_idon=0, filtered_pak=12, ...
+ hsrp_conf=0, need_af_check=1, promiscuous mode=off
+```
+
+Two kinds of output were seen. They match LLDP reception on every interface
+checked (8 in the test lab):
+
+| `need_af_check` | Filter list | LLDP RX |
+| --- | --- | --- |
+| 0 | a few multicast MACs only: slow protocols `0180.c200.0002`/`0007` (`iol`), CDP `0100.0ccc.cccc` (`ioll2`), IGMP group MACs when joined. No broadcast, no own MAC. | yes |
+| 1 | broadcast + own MAC + all IPv4 multicast (`0100.5e7f.ffff` mask `0000.007f.ffff`) + the same multicast MACs | **no** |
+
+- The LLDP MAC `0180.c200.000e` was not in the list on any IOL interface, in
+  either state.
+- PIM sets `need_af_check=1`. Removing PIM leaves it at 1. A CDP change on the
+  interface sets it back to 0, and LLDP comes back.
+- Enabling CDP adds `0100.0ccc.cccc` to every port's filter, including ports
+  with `need_af_check=1`. That is why CDP keeps working.
+- `filtered_pak` is not a useful signal (see story step 10).
+
+### Can the filter be edited?
+
+No way found to add the LLDP MAC to the filter. There is no documented command
+for it. The only changes seen are side effects of other features registering or
+changing their own MACs:
+
+| Feature | Effect on the filter |
+| --- | --- |
+| CDP | adds `0100.0ccc.cccc` |
+| IGMP join | adds the group MAC |
+| PIM | rebuilds the list and enforces it |
+| `mac-address` change | rebuilds the list with the new own MAC |
+
+None of them lets you choose the MAC, and none added `0180.c200.000e`.
+Restarting LLDP globally did not help either.
+
+Wording for the post: "I couldn't find a way to add the LLDP MAC to the
+filter", not "there is no way".
+
+### Interpretation (not verified)
+
+- `need_af_check=1` means the filter is enforced (only listed MACs are
+  accepted); `0` means it is not. Basis: with `0`, the list has no broadcast
+  and no own MAC, yet ARP and IP work.
+- PIM asks the driver to receive all IPv4 multicast. IOL does this by
+  rebuilding the filter in enforced mode with the `01:00:5e/25` range.
+  Removing PIM does not trigger a rebuild; a CDP change does.
+- Protocols that register their destination MAC with the driver (CDP, IGMP
+  groups, slow protocols) keep working. LLDP does not register
+  `01:80:c2:00:00:0e` on IOL, so it only works while the filter is not
+  enforced.
+
+## Other platforms
+
+All three were tested with PIM on one link (both ends, adjacency up), PIM on
+one side only of a second link, and a third link as control. All LLDP
+adjacencies were relearned after clearing the table.
+
+### cEOS 4.35.6M: not affected
+
+Config: `router multicast` / `ipv4` / `routing`, and `pim ipv4 sparse-mode` on
+the interface.
+
+### IOSv 15.6T: not affected
+
+IOSv emulates an Intel NIC (`Hardware is iGbE`). Its filter lists the LLDP MAC
+explicitly, next to the own MAC. PIM only adds 224.0.0.13 on the PIM port.
+Chip entries are byte-swapped:
+
+```
+Chip address filter[0] 8000F7BE.F0005452   → 52:54:00:f0:be:f7 (own MAC)
+Chip address filter[1] 80000E00.00C28001   → 01:80:c2:00:00:0e (LLDP)
+Chip address filter[4] 80000D00.005E0001   → 01:00:5e:00:00:0d (PIM)
+Entry= 1:  Addr=0180.C200.000E
+```
+
+### FRR 10.7.1 + lldpd: not affected
+
+FRR has no LLDP of its own; `lldpd` handles it. The Linux multicast list on a
+PIM interface (`ip maddr show dev eth1`) has both MACs, the LLDP one
+registered by `lldpd`:
+
+```
+link  01:80:c2:00:00:0e static     ← LLDP (lldpd)
+link  01:80:c2:00:00:03 static
+link  01:80:c2:00:00:00 static
+link  01:00:5e:00:00:0d            ← PIM (224.0.0.13)
+```
+
+## Side note: the LLDP MAC and PTP
+
+`01:80:c2:00:00:0e` is the IEEE 802.1 "Nearest Bridge" group address: bridges
+never forward it, so frames sent to it only cross one link. LLDP uses it by
+default (LLDP can also use `01:80:c2:00:00:03` and `01:80:c2:00:00:00`, which
+is why `lldpd` registers all three on Linux). It is not LLDP-only: PTP over
+Ethernet uses it for peer-delay messages, and 802.1AS (gPTP) for everything.
+
+So PTP could hit the same IOL filter. It cannot be tested on IOL, though:
+IOL 17.18.02 accepts the PTP configuration (`ptp clock boundary|ordinary
+domain 0`, `clock-port … master|slave`, `transport ethernet multicast
+interface Et0/1`), but without PIM, a master and a slave on the same link never
+see each other:
+
+- port state empty, slave's master address `UNKNOWN`, parent and grandmaster
+  identity all zeros;
+- clock state moves from `UNKNOWN` to `FREERUN` to `HOLDOVER` on its own;
+- `Pkts sent` / `Pkts rcvd` are identical on both nodes and grow by exactly
+  1000 at the same time, which does not look like real traffic;
+- no PTP MAC (`011b.1900.0000` or `0180.c200.000e`) appears in the filter.
+
+## Open questions
+
+- Where exactly IOL drops the LLDP frames. A capture on the container
+  interface would confirm they reach the container:
+  `sudo nsenter -t <pid> -n tcpdump -eni ethX ether proto 0x88cc`.
+- Why `shutdown` / `no shutdown` restored LLDP on an `iol` router in the
+  original lab but not on an `ioll2` node in the test lab. `need_af_check`
+  was not captured on the `iol` router.
+- Whether physical IOS-XE hardware behaves the same, or only IOL's emulated
+  NIC.
+- Other features that might enforce the filter: HSRP/VRRP (there is an
+  `hsrp_conf` field), IPv6 multicast routing. (`mac-address` changes were
+  tested: they rebuild the filter but do not enforce it, see "Can the filter be
+  edited?".)
+- What `filtered_pak` actually counts.
+
+## Reproducing
+
+All labs use netlab. Container names follow `clab-<lab>-<node>`; `<lab>`
+depends on how the lab is named (`netlab status` shows it). The commands below
+use `LAB=<lab name>`.
+
+Timing: LLDP sends every 30 s and holds for 120 s. After `clear lldp table`,
+wait 40–45 s before checking.
+
+### IOL
+
+```yaml
+provider: clab
+defaults.devices.iol.clab.image: "vrnetlab/cisco_iol:17.18.02"
+defaults.devices.ioll2.clab.image: "vrnetlab/cisco_iol:L2-17.18.02"
+
+nodes:
+  r1: { device: iol }
+  r2: { device: iol }
+  s1: { device: ioll2 }
+  s2: { device: ioll2 }
+
+links: [ r1-r2, r1-s1, r2-s2, s1-s2 ]
+```
+
+Links: r1 Et0/1 ↔ r2 Et0/1, r1 Et0/2 ↔ s1 Et0/1, r2 Et0/2 ↔ s2 Et0/1,
+s1 Et0/2 ↔ s2 Et0/2. Ethernet0/0 is management.
+
+Baseline: LLDP neighbors on all 4 links in both directions.
+
+Break it (on r1):
+
+```
+interface Ethernet0/1
+ ip pim sparse-mode
+```
+
+Check (on r1):
+
+```
+clear lldp table
+! wait 40-45 s
+show lldp neighbors
+show controllers Ethernet0/1      ! need_af_check, filter list
+show controllers Ethernet0/2      ! control: need_af_check=0
+debug lldp packets                ! TX'd on Et0/1, no RX'd
+```
+
+Show it is sticky, then restore it:
+
+```
+interface Ethernet0/1
+ no ip pim sparse-mode
+! still no LLDP from r2, need_af_check=1
+ cdp enable
+! need_af_check=0, LLDP neighbor r2 back after 30-45 s
+```
+
+Variants used: `ip pim dense-mode`, `ip multicast-routing` alone,
+`ip igmp join-group 239.1.1.1` without PIM, `no cdp enable` / `cdp enable` on
+`ioll2` (CDP is on by default there).
+
+### cEOS
+
+```yaml
+provider: clab
+defaults.devices.eos.clab.image: "ceos:4.35.6M"
+
+nodes:
+  e1: { device: eos }
+  e2: { device: eos }
+  e3: { device: eos }
+
+links: [ e1-e2, e1-e3, e2-e3 ]
+```
+
+On e1 and e2 (Ethernet1 is the e1–e2 link):
+
+```
+router multicast
+   ipv4
+      routing
+interface Ethernet1
+   pim ipv4 sparse-mode
+```
+
+On e3, `pim ipv4 sparse-mode` on Ethernet2 only (toward e2, no PIM there).
+
+Check: `show ip pim neighbor`, `clear lldp table`, wait, `show lldp neighbors`.
+
+### IOSv
+
+```yaml
+provider: libvirt
+defaults.devices.iosv.libvirt.image: "cisco/iosv"
+
+nodes:
+  v1: { device: iosv }
+  v2: { device: iosv }
+  v3: { device: iosv }
+
+links: [ v1-v2, v1-v3, v2-v3 ]
+```
+
+On v1 and v2 (Gi0/1 is the v1–v2 link):
+
+```
+ip multicast-routing
+interface GigabitEthernet0/1
+ ip pim sparse-mode
+```
+
+On v3, `ip pim sparse-mode` on Gi0/2 only (toward v2), no multicast routing.
+
+Check: `show ip pim neighbor`, `clear lldp table`, wait, `show lldp neighbors`,
+`show controllers GigabitEthernet0/1` (look for `Addr=0180.C200.000E`).
+
+### FRR
+
+```yaml
+provider: clab
+defaults.device: frr
+
+nodes:
+  r1:
+  r2:
+  r3:
+
+links: [ r1-r2, r2-r3, r3-r1 ]
+```
+
+Links: r1 eth1 ↔ r2 eth1, r2 eth2 ↔ r3 eth1, r3 eth2 ↔ r1 eth2.
+
+netlab does not run any LLDP daemon on FRR nodes, and `pimd` is disabled in
+`/etc/frr/daemons`. Both are added by hand; everything is lost on
+`netlab down`.
+
+**1. Install and start lldpd.** The FRR image is Alpine. Management (`eth0`)
+is in VRF `mgmt`, which holds the only default route, so `apk` must run in that
+VRF. Docker's internal resolver (127.0.0.11) does not answer from inside the
+VRF, so `/etc/resolv.conf` points at a public resolver only during the install:
+
+```bash
+for n in r1 r2 r3; do
+  docker exec clab-$LAB-$n sh -c '
+    cp /etc/resolv.conf /tmp/resolv.bak
+    echo "nameserver 1.1.1.1" > /etc/resolv.conf
+    ip vrf exec mgmt apk add lldpd
+    cat /tmp/resolv.bak > /etc/resolv.conf
+    mkdir -p /run/lldpd
+    lldpd -I eth1,eth2'
+done
+```
+
+`-I eth1,eth2` limits LLDP to the data interfaces. Check after about 30 s:
+
+```bash
+for n in r1 r2 r3; do docker exec clab-$LAB-$n lldpcli show neighbors summary; done
+```
+
+**2. Start pimd and enable PIM**, with the same options as the other FRR
+daemons (see `ps -o args` in the container):
+
+```bash
+for n in r1 r2 r3; do
+  docker exec clab-$LAB-$n /usr/lib/frr/pimd -d -F datacenter -A 127.0.0.1
+  docker exec clab-$LAB-$n vtysh -c 'conf t' -c 'interface eth1' -c 'ip pim'
+done
+```
+
+This gives PIM on both sides of r1–r2 and one-sided on r3 toward r2. The
+`FD Limit set: 1048576 is too large` warning is harmless. `vtysh` prints
+`No changes found to be committed!`, but the config is applied:
+
+```bash
+docker exec clab-$LAB-r1 vtysh -c 'show ip pim interface' -c 'show ip pim neighbor'
+docker exec clab-$LAB-r1 ip maddr show dev eth1
+```
+
+**3. Check LLDP with PIM active.** `lldpd` has no "clear table" command, so
+restart it to start from an empty table:
+
+```bash
+for n in r1 r2 r3; do docker exec clab-$LAB-$n sh -c 'pkill lldpd; sleep 1; lldpd -I eth1,eth2'; done
+for n in r1 r2 r3; do docker exec clab-$LAB-$n lldpcli show neighbors summary; done
+```
+
+Result: all 6 adjacencies back within 30 s, PIM adjacency still up.
